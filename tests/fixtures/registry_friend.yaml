@@ -1,0 +1,14 @@
+version: "1"
+install_profile: friend
+
+apps:
+  - id: moomba
+    display_name: Moomba
+    repo: null
+    enabled: false
+    capabilities:
+      - id: voice_capture
+        invoke: GET /voice
+      - id: corpus
+        invoke: GET /api/corpus
+    focus_route: /voice

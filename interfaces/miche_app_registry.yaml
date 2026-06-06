@@ -5,6 +5,7 @@ apps:
   - id: caffenagent
     display_name: Caffeine Agent
     repo: Slimydog21/caffenagent
+    operator_only: true
     enabled: true
     base_url_env: CAFFENAGENT_PUBLIC_BASE_URL
     health_path: /api/health

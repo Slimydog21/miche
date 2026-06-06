@@ -39,6 +39,7 @@
           "items": { "$ref": "#/$defs/capability" }
         },
         "focus_route": { "type": "string", "pattern": "^/" },
+        "operator_only": { "type": "boolean" },
         "action_webhook_env": { "type": "string" },
         "information_webhook_env": { "type": "string" }
       }

@@ -1,0 +1,4 @@
+profile_id: friend
+apps:
+  - moomba
+secrets_path: ~/.miche/profiles/friend/secrets.env

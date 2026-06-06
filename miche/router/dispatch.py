@@ -13,6 +13,7 @@ from typing import Any
 
 import jsonschema
 
+from ..tenancy.profiles import active_profile_id
 from .capability_map import CapabilityError, resolve_capability
 
 _SCHEMA_PATH = Path(__file__).resolve().parent.parent.parent / "schemas" / "miche_router_decision.json"
@@ -373,6 +374,7 @@ def dispatch_utterance(
                 "utterance_hash": result["utterance_hash"],
                 "text": body,
                 "source": source,
+                "profile_id": active_profile_id(),
                 "app_id": result["app_id"],
                 "capability": result["capability"],
                 "needs_focus": False,
@@ -398,6 +400,7 @@ def dispatch_utterance(
         "utterance_hash": result["utterance_hash"],
         "text": body,
         "source": source,
+        "profile_id": active_profile_id(),
         "app_id": result["app_id"],
         "capability": result["capability"],
         "needs_focus": result["needs_focus"],

@@ -14,6 +14,7 @@ from ..adapters.caffenagent_information import make_gap_fetcher
 from ..inbox.action import ActionInboxAggregator
 from ..inbox.information import AuditProvider, DeployProvider, GapProvider, InformationInboxAggregator
 from ..registry import AppRegistry, RegistryError, load_registry
+from ..tenancy.profiles import DEFAULT_PROFILE_ID, active_profile_id
 
 _action_aggregator = ActionInboxAggregator(fetcher=make_fetcher())
 _info_aggregator = InformationInboxAggregator(
@@ -30,9 +31,11 @@ _TEMPLATES_DIR = Path(__file__).resolve().parent.parent / "templates"
 templates = Jinja2Templates(directory=str(_TEMPLATES_DIR))
 
 
-def _chip_apps(registry: AppRegistry) -> list[dict[str, Any]]:
+def _chip_apps(registry: AppRegistry, *, profile_id: str) -> list[dict[str, Any]]:
     chips: list[dict[str, Any]] = []
     for app in registry.apps:
+        if app.operator_only and profile_id != DEFAULT_PROFILE_ID:
+            continue
         if not app.enabled or not app.focus_route:
             continue
         chips.append(
@@ -68,10 +71,12 @@ def render_home(*, registry: AppRegistry | None = None) -> dict[str, Any]:
         information_items = info_snap.items
         information_providers = info_snap.providers
 
+    pid = active_profile_id()
     return {
         "layout_version": _LAYOUT_VERSION,
         "install_profile": reg.install_profile,
-        "app_chips": _chip_apps(reg),
+        "profile_id": pid,
+        "app_chips": _chip_apps(reg, profile_id=pid),
         "registry_error": registry_error,
         "action_items": action_items,
         "action_apps": action_apps,

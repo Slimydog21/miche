@@ -1,0 +1,5 @@
+profile_id: operator_default
+apps:
+  - caffenagent
+  - moomba
+secrets_path: ~/.miche/profiles/operator_default/secrets.env

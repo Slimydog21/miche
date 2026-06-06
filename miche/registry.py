@@ -49,6 +49,7 @@ class AppRegistration:
     focus_route: str | None = None
     focus_paths: list[str] = field(default_factory=list)
     focus_embed_allowed: bool = False
+    operator_only: bool = False
     action_webhook_env: str | None = None
     information_webhook_env: str | None = None
 
@@ -68,6 +69,7 @@ class AppRegistration:
             "focus_route": self.focus_route,
             "focus_paths": list(self.focus_paths),
             "focus_embed_allowed": self.focus_embed_allowed,
+            "operator_only": self.operator_only,
             "base_url_configured": bool(self.resolve_base_url()),
         }
 
@@ -140,13 +142,14 @@ def _parse_app(raw: dict[str, Any]) -> AppRegistration:
         focus_route=raw.get("focus_route"),
         focus_paths=[str(p) for p in raw.get("focus_paths") or []],
         focus_embed_allowed=bool(raw.get("focus_embed_allowed", False)),
+        operator_only=bool(raw.get("operator_only", False)),
         action_webhook_env=raw.get("action_webhook_env"),
         information_webhook_env=raw.get("information_webhook_env"),
     )
 
 
-def load_registry(path: Path | None = None) -> AppRegistry:
-    """Load and validate registry YAML."""
+def load_registry(path: Path | None = None, *, skip_profile: bool = False) -> AppRegistry:
+    """Load and validate registry YAML; apply active install profile unless skipped."""
     reg_path = path or DEFAULT_REGISTRY_PATH
     if not reg_path.is_file():
         raise RegistryError(f"registry not found: {reg_path}")
@@ -163,12 +166,17 @@ def load_registry(path: Path | None = None) -> AppRegistry:
 
     _validate_semantics(data, source=str(reg_path))
     apps = [_parse_app(a) for a in data.get("apps") or []]
-    return AppRegistry(
+    registry = AppRegistry(
         version=str(data.get("version") or ""),
         install_profile=str(data.get("install_profile") or "default"),
         apps=apps,
         source_path=str(reg_path),
     )
+    if skip_profile:
+        return registry
+    from .tenancy.profiles import apply_active_profile
+
+    return apply_active_profile(registry)
 
 
 def redact_secrets(payload: dict[str, Any]) -> dict[str, Any]:
