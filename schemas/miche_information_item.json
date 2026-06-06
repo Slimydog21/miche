@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://miche.local/schemas/miche_information_item.json",
+  "title": "MicheInformationItem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "info_id",
+    "kind",
+    "title",
+    "body",
+    "block_id",
+    "source_app",
+    "provider",
+    "relevance_score",
+    "stale",
+    "degraded",
+    "created_at"
+  ],
+  "properties": {
+    "info_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["gap_summary", "deploy_health", "audit_snippet"]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "body": {
+      "type": "string"
+    },
+    "block_id": {
+      "type": "string",
+      "description": "Voice block citation or explicit N/A"
+    },
+    "source_app": {
+      "type": "string",
+      "minLength": 1
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "stale": {
+      "type": "boolean"
+    },
+    "degraded": {
+      "type": "boolean"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

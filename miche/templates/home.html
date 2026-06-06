@@ -93,12 +93,38 @@
         id="miche-information-inbox"
         class="miche-inbox__body"
         data-inbox="information"
-        data-empty="true"
+        data-empty="{{ 'false' if information_items else 'true' }}"
         role="region"
         aria-live="polite"
       >
+        {% if information_items %}
+        <ul class="miche-info-list">
+          {% for item in information_items %}
+          <li
+            class="miche-info-row miche-info-row--{{ item.kind }}{% if item.degraded %} miche-info-row--degraded{% endif %}{% if item.stale %} miche-info-row--stale{% endif %}"
+            data-inbox-row
+            data-info-id="{{ item.info_id }}"
+            data-info-kind="{{ item.kind }}"
+            data-source-app="{{ item.source_app }}"
+          >
+            <div class="miche-info-row__head">
+              <span class="miche-info-row__kind">{{ item.kind }}</span>
+              <strong class="miche-info-row__title">{{ item.title }}</strong>
+              <span class="miche-info-row__citation">block: {{ item.block_id }}</span>
+              {% if item.degraded %}<span class="miche-info-row__badge">degraded</span>{% endif %}
+            </div>
+            <div
+              class="miche-info-row__body"
+              data-info-body
+              data-expandable="{{ 'true' if item.body|length > 200 else 'false' }}"
+            >{{ item.body }}</div>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
         <p class="miche-empty__title">No summaries yet</p>
         <p class="miche-empty__copy">Gap summaries, deploy health, and Miche audit snippets land here once apps wire their information webhooks. Empty is honest — we do not fabricate sessions or fake-green status.</p>
+        {% endif %}
       </div>
     </section>
   </main>

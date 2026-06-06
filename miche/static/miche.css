@@ -310,6 +310,101 @@ body.miche-home {
   text-decoration: underline;
 }
 
+.miche-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.miche-info-row {
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-3);
+  background: var(--color-bg-card);
+}
+
+.miche-info-row--gap_summary {
+  border-left: 4px solid var(--color-primary);
+}
+
+.miche-info-row--deploy_health {
+  border-left: 4px solid var(--color-success);
+}
+
+.miche-info-row--audit_snippet {
+  border-left: 4px solid var(--color-accent-dark);
+}
+
+.miche-info-row--degraded,
+.miche-info-row--stale {
+  background: #fff5dd;
+}
+
+.miche-info-row__kind {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-right: var(--spacing-2);
+}
+
+.miche-info-row__title {
+  display: block;
+  font-size: 15px;
+  margin-top: var(--spacing-2);
+}
+
+.miche-info-row__citation {
+  display: block;
+  margin-top: var(--spacing-2);
+  font-size: 12px;
+  color: var(--color-muted);
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+.miche-info-row__badge {
+  display: inline-block;
+  margin-left: var(--spacing-2);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-warning);
+  text-transform: uppercase;
+}
+
+.miche-info-row__body {
+  margin-top: var(--spacing-2);
+  font-size: 14px;
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+
+.miche-info-row__body code {
+  font-size: 12px;
+  background: var(--color-bg-soft);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: 1px 4px;
+}
+
+.miche-info-expand {
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 13px;
+  font-weight: 600;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-soft);
+  cursor: pointer;
+}
+
+.miche-info-expand:hover {
+  background: var(--color-bg-card);
+}
+
 .miche-island-mount {
   position: fixed;
   right: var(--spacing-4);

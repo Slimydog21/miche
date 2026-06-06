@@ -10,10 +10,19 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from ..adapters.caffenagent_actions import make_fetcher
+from ..adapters.caffenagent_information import make_gap_fetcher
 from ..inbox.action import ActionInboxAggregator
+from ..inbox.information import AuditProvider, DeployProvider, GapProvider, InformationInboxAggregator
 from ..registry import AppRegistry, RegistryError, load_registry
 
 _action_aggregator = ActionInboxAggregator(fetcher=make_fetcher())
+_info_aggregator = InformationInboxAggregator(
+    providers=[
+        GapProvider(fetch_gap_items=make_gap_fetcher()),
+        DeployProvider(),
+        AuditProvider(),
+    ]
+)
 
 _LAYOUT_VERSION = "1"
 MOUNT_ELEMENT_ID = "miche-island-mount"
@@ -49,10 +58,15 @@ def render_home(*, registry: AppRegistry | None = None) -> dict[str, Any]:
 
     action_items: list[dict[str, Any]] = []
     action_apps: list[dict[str, Any]] = []
+    information_items: list[dict[str, Any]] = []
+    information_providers: list[dict[str, Any]] = []
     if registry_error is None:
-        snap = _action_aggregator.collect()
-        action_items = snap.items
-        action_apps = snap.apps
+        action_snap = _action_aggregator.collect()
+        action_items = action_snap.items
+        action_apps = action_snap.apps
+        info_snap = _info_aggregator.collect()
+        information_items = info_snap.items
+        information_providers = info_snap.providers
 
     return {
         "layout_version": _LAYOUT_VERSION,
@@ -61,6 +75,8 @@ def render_home(*, registry: AppRegistry | None = None) -> dict[str, Any]:
         "registry_error": registry_error,
         "action_items": action_items,
         "action_apps": action_apps,
+        "information_items": information_items,
+        "information_providers": information_providers,
     }
 
 

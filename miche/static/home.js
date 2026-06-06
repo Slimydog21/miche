@@ -1,10 +1,63 @@
 /**
- * Home shell client — MPLAT-SPR-02
- * Keeps empty inboxes honest; island mount id frozen for SPR-05.
+ * Home shell client — MPLAT-SPR-02 + information expand MPLAT-SPR-04
  */
 
 /** Frozen for SPR-05 — do not rename without bumping layout_version. */
 export const MOUNT_ID = "miche-island-mount";
+
+const EXPAND_THRESHOLD = 200;
+
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderMarkdownSafe(text) {
+  const escaped = escapeHtml(text);
+  return escaped
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\n/g, "<br />");
+}
+
+function initInformationExpand() {
+  for (const el of document.querySelectorAll("[data-info-body][data-expandable='true']")) {
+    const full = el.textContent || "";
+    if (full.length <= EXPAND_THRESHOLD) {
+      el.innerHTML = renderMarkdownSafe(full);
+      continue;
+    }
+    const preview = full.slice(0, EXPAND_THRESHOLD).trimEnd() + "…";
+    el.innerHTML = renderMarkdownSafe(preview);
+    el.dataset.infoFull = full;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "miche-info-expand";
+    btn.textContent = "Show more";
+    btn.addEventListener("click", () => {
+      const expanded = el.dataset.expanded === "true";
+      if (expanded) {
+        el.innerHTML = renderMarkdownSafe(preview);
+        el.dataset.expanded = "false";
+        btn.textContent = "Show more";
+      } else {
+        el.innerHTML = renderMarkdownSafe(el.dataset.infoFull || full);
+        el.dataset.expanded = "true";
+        btn.textContent = "Show less";
+      }
+    });
+    el.insertAdjacentElement("afterend", btn);
+  }
+
+  for (const el of document.querySelectorAll("[data-info-body][data-expandable='false']")) {
+    const full = el.textContent || "";
+    el.innerHTML = renderMarkdownSafe(full);
+  }
+}
 
 function assertMountContract() {
   const mount = document.getElementById(MOUNT_ID);
@@ -12,7 +65,6 @@ function assertMountContract() {
     console.error(`[miche-home] missing required mount #${MOUNT_ID}`);
     return;
   }
-  // shell: layout + mount present; island: SPR-05 sets "island" when widget mounts
   mount.dataset.islandReady = "shell";
 }
 
@@ -27,6 +79,7 @@ function markEmptyInboxes() {
 
 function init() {
   assertMountContract();
+  initInformationExpand();
   markEmptyInboxes();
 }
 

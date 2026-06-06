@@ -45,9 +45,14 @@ def test_empty_inboxes_honest_no_demo_rows(client, monkeypatch):
     class EmptySnap:
         items = []
         apps = []
+        providers = []
 
     monkeypatch.setattr(
         "miche.routes.home._action_aggregator",
+        MagicMock(collect=MagicMock(return_value=EmptySnap)),
+    )
+    monkeypatch.setattr(
+        "miche.routes.home._info_aggregator",
         MagicMock(collect=MagicMock(return_value=EmptySnap)),
     )
     r = client.get("/")
