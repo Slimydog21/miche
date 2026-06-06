@@ -1,0 +1,88 @@
+/* focus.css — Focus bridge MPLAT-SPR-07 */
+
+.miche-focus {
+  min-height: 100vh;
+  background: var(--color-bg, #fafaf7);
+  color: var(--color-ink, #2c2c2c);
+}
+
+.miche-focus__chrome {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--color-black, #151515);
+  background: var(--color-bg-card, #fff);
+  box-shadow: 4px 4px 0 0 var(--color-black, #151515);
+}
+
+.miche-focus__home {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border: 2px solid var(--color-black, #151515);
+  border-radius: 6px;
+  background: var(--color-accent, #f9bd2b);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--color-black, #151515);
+  white-space: nowrap;
+}
+
+.miche-focus__home--inline {
+  margin-top: 12px;
+}
+
+.miche-focus__title {
+  flex: 1;
+}
+
+.miche-focus__eyebrow {
+  margin: 0;
+  font-size: 11px;
+  color: var(--color-muted, #6b6b6b);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.miche-focus__title h1 {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.miche-focus__path {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.miche-focus__mode {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border: 1px solid var(--color-black, #151515);
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.miche-focus__main {
+  padding: 0;
+  min-height: calc(100vh - 72px);
+}
+
+.miche-focus__frame {
+  width: 100%;
+  height: calc(100vh - 72px);
+  border: 0;
+  background: var(--color-bg-card, #fff);
+}
+
+.miche-focus__main--degraded {
+  padding: 24px;
+  max-width: 640px;
+  margin: 24px auto;
+  border: 2px solid var(--color-black, #151515);
+  border-radius: 6px;
+  background: #fde7e0;
+  box-shadow: 4px 4px 0 0 var(--color-black, #151515);
+}

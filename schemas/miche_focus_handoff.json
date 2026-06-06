@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://miche.local/schemas/miche_focus_handoff.json",
+  "title": "MicheFocusHandoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "handoff_id",
+    "app_id",
+    "path",
+    "return_url",
+    "island_state_token",
+    "expires_at"
+  ],
+  "properties": {
+    "handoff_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "app_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "path": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "return_url": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "island_state_token": {
+      "type": "string",
+      "minLength": 8
+    },
+    "island_expanded": {
+      "type": "boolean"
+    },
+    "utterance_id": {
+      "type": ["string", "null"]
+    },
+    "router_decision_id": {
+      "type": ["string", "null"]
+    },
+    "target_url": {
+      "type": ["string", "null"]
+    },
+    "embed_mode": {
+      "type": "string",
+      "enum": ["iframe", "navigate", "degraded"]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

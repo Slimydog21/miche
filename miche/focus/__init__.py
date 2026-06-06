@@ -1,0 +1,1 @@
+"""Focus mode bridge — MPLAT-SPR-07."""

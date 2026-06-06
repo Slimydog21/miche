@@ -18,6 +18,11 @@ apps:
       - id: studio
         invoke: GET /studio
     focus_route: /orchestrate
+    focus_paths:
+      - /orchestrate
+      - /studio
+      - /sessions
+    focus_embed_allowed: false
     action_webhook_env: CAFFENAGENT_ACTION_WEBHOOK_SECRET
     information_webhook_env: CAFFENAGENT_INFO_WEBHOOK_SECRET
 

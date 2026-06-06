@@ -47,6 +47,8 @@ class AppRegistration:
     health_path: str = "/api/health"
     capabilities: list[CapabilityRegistration] = field(default_factory=list)
     focus_route: str | None = None
+    focus_paths: list[str] = field(default_factory=list)
+    focus_embed_allowed: bool = False
     action_webhook_env: str | None = None
     information_webhook_env: str | None = None
 
@@ -64,6 +66,8 @@ class AppRegistration:
             "health_path": self.health_path,
             "capabilities": [c.as_public_dict() for c in self.capabilities],
             "focus_route": self.focus_route,
+            "focus_paths": list(self.focus_paths),
+            "focus_embed_allowed": self.focus_embed_allowed,
             "base_url_configured": bool(self.resolve_base_url()),
         }
 
@@ -106,6 +110,9 @@ def _validate_semantics(data: dict[str, Any], *, source: str) -> None:
         focus = raw.get("focus_route")
         if focus is not None and not str(focus).startswith("/"):
             raise RegistryError("focus_route must start with /", path=f"apps[{idx}].focus_route")
+        for pidx, fp in enumerate(raw.get("focus_paths") or []):
+            if not str(fp).startswith("/"):
+                raise RegistryError("focus_paths entries must start with /", path=f"apps[{idx}].focus_paths[{pidx}]")
 
         for cidx, cap in enumerate(raw.get("capabilities") or []):
             if isinstance(cap, str):
@@ -131,6 +138,8 @@ def _parse_app(raw: dict[str, Any]) -> AppRegistration:
         health_path=str(raw.get("health_path") or "/api/health"),
         capabilities=caps,
         focus_route=raw.get("focus_route"),
+        focus_paths=[str(p) for p in raw.get("focus_paths") or []],
+        focus_embed_allowed=bool(raw.get("focus_embed_allowed", False)),
         action_webhook_env=raw.get("action_webhook_env"),
         information_webhook_env=raw.get("information_webhook_env"),
     )

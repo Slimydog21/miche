@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Focus — {{ display_name }}</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <link rel="stylesheet" href="/static/focus.css" />
+</head>
+<body class="miche-focus" data-handoff-id="{{ handoff.handoff_id }}">
+  <header class="miche-focus__chrome" role="banner">
+    <a class="miche-focus__home" href="{{ home_return_url }}">← Miche home</a>
+    <div class="miche-focus__title">
+      <p class="miche-focus__eyebrow">Focus</p>
+      <h1>{{ display_name }}</h1>
+      <p class="miche-focus__path"><code>{{ handoff.path }}</code></p>
+    </div>
+    <span class="miche-focus__mode" data-embed-mode="{{ handoff.embed_mode }}">{{ handoff.embed_mode }}</span>
+  </header>
+
+  {% if handoff.embed_mode == 'iframe' and handoff.target_url %}
+  <main class="miche-focus__main">
+    <iframe
+      class="miche-focus__frame"
+      src="{{ handoff.target_url }}"
+      title="{{ display_name }} in Focus"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+  </main>
+  {% elif handoff.embed_mode == 'degraded' %}
+  <main class="miche-focus__main miche-focus__main--degraded" role="alert">
+    <p><strong>{{ display_name }}</strong> base URL is not configured.</p>
+    <p>Set <code>CAFFENAGENT_PUBLIC_BASE_URL</code> (or the app registry <code>base_url_env</code>) — Miche will not fabricate a silent iframe.</p>
+    <a class="miche-focus__home miche-focus__home--inline" href="{{ home_return_url }}">Return to Miche home</a>
+  </main>
+  {% else %}
+  <main class="miche-focus__main miche-focus__main--degraded">
+    <p>Embed not opted in for {{ display_name }} — navigation mode should have redirected.</p>
+    <a class="miche-focus__home miche-focus__home--inline" href="{{ home_return_url }}">Return to Miche home</a>
+  </main>
+  {% endif %}
+</body>
+</html>

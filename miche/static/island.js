@@ -30,7 +30,10 @@ function renderInlineCard(card) {
   let cta = "";
   if (card.type === "focus_cta" && card.focus_route) {
     const appId = card.source_app_id || "caffenagent";
-    cta = `<a class="miche-island__focus-cta" href="/focus/${escapeHtml(appId)}?path=${escapeHtml(card.focus_route)}" data-focus-cta="true">Open in Focus</a>`;
+    const expanded = sessionStorage.getItem(STORAGE_KEY) === "true";
+    const qs = new URLSearchParams({ path: card.focus_route });
+    if (expanded) qs.set("island_expanded", "true");
+    cta = `<a class="miche-island__focus-cta" href="/focus/${escapeHtml(appId)}?${qs.toString()}" data-focus-cta="true">Open in Focus</a>`;
   } else if (card.deep_link) {
     cta = `<a class="miche-island__focus-cta" href="${escapeHtml(card.deep_link)}">${type === "info_summary" ? "View summary" : "Open"}</a>`;
   }

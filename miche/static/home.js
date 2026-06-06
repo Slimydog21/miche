@@ -77,7 +77,30 @@ function markEmptyInboxes() {
   }
 }
 
+async function restoreFocusReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const handoffId = params.get("focus_return");
+  if (!handoffId) return;
+  try {
+    const r = await fetch(`/api/platform/focus/restore?handoff_id=${encodeURIComponent(handoffId)}`);
+    if (!r.ok) return;
+    const body = await r.json();
+    if (body.island_expanded) {
+      sessionStorage.setItem("island_expanded", "true");
+    } else {
+      sessionStorage.setItem("island_expanded", "false");
+    }
+    params.delete("focus_return");
+    const next = params.toString();
+    const url = next ? `${window.location.pathname}?${next}` : window.location.pathname;
+    window.history.replaceState({}, "", url);
+  } catch (err) {
+    console.error("[miche-home] focus return restore failed", err);
+  }
+}
+
 async function initIsland() {
+  await restoreFocusReturn();
   try {
     const { mountFloatingIsland } = await import("./island.js");
     mountFloatingIsland();
