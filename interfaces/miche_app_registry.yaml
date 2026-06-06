@@ -1,0 +1,33 @@
+version: "1"
+install_profile: operator_default
+
+apps:
+  - id: caffenagent
+    display_name: Caffeine Agent
+    repo: Slimydog21/caffenagent
+    enabled: true
+    base_url_env: CAFFENAGENT_PUBLIC_BASE_URL
+    health_path: /api/health
+    capabilities:
+      - id: sessions
+        invoke: GET /api/sessions/registry
+      - id: htmlspec
+        invoke: GET /api/miche/specs
+      - id: prcrouch
+        invoke: GET /api/pr/queue
+      - id: studio
+        invoke: GET /studio
+    focus_route: /orchestrate
+    action_webhook_env: CAFFENAGENT_ACTION_WEBHOOK_SECRET
+    information_webhook_env: CAFFENAGENT_INFO_WEBHOOK_SECRET
+
+  - id: moomba
+    display_name: Moomba
+    repo: null
+    enabled: false
+    capabilities:
+      - id: voice_capture
+        invoke: GET /voice
+      - id: corpus
+        invoke: GET /api/corpus
+    focus_route: /voice

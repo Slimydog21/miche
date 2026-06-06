@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Miche Platform API v0
+  version: 0.1.0
+  description: Read-only app registry and health probes (MPLAT-SPR-01)
+paths:
+  /api/platform/apps:
+    get:
+      summary: List registered apps (public fields only)
+      responses:
+        "200":
+          description: Registry snapshot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  version: { type: string }
+                  install_profile: { type: string }
+                  apps:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/AppPublic"
+  /api/platform/apps/{app_id}/health:
+    get:
+      summary: Probe app health endpoint
+      parameters:
+        - name: app_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Probe result
+        "404":
+          description: Unknown app_id
+components:
+  schemas:
+    AppPublic:
+      type: object
+      properties:
+        id: { type: string }
+        display_name: { type: string }
+        enabled: { type: boolean }
+        capabilities:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              invoke: { type: string }
+        focus_route: { type: string }
+        base_url_configured: { type: boolean }

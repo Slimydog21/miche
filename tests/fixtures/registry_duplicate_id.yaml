@@ -1,0 +1,19 @@
+version: "1"
+install_profile: test
+apps:
+  - id: dup
+    display_name: One
+    enabled: true
+    base_url_env: APP_A_URL
+    focus_route: /one
+    capabilities:
+      - id: a
+        invoke: GET /a
+  - id: dup
+    display_name: Two
+    enabled: true
+    base_url_env: APP_B_URL
+    focus_route: /two
+    capabilities:
+      - id: b
+        invoke: GET /b

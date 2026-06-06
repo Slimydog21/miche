@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://miche.local/schemas/miche_app_registry.schema.json",
+  "title": "MicheAppRegistry",
+  "type": "object",
+  "required": ["version", "apps"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "minLength": 1 },
+    "install_profile": { "type": "string" },
+    "apps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/app" }
+    }
+  },
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "required": ["id", "invoke"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "invoke": { "type": "string", "pattern": "^(GET|POST|PUT|PATCH|DELETE) /" }
+      }
+    },
+    "app": {
+      "type": "object",
+      "required": ["id", "display_name"],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "repo": { "type": ["string", "null"] },
+        "enabled": { "type": "boolean" },
+        "base_url_env": { "type": "string" },
+        "health_path": { "type": "string" },
+        "capabilities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/capability" }
+        },
+        "focus_route": { "type": "string", "pattern": "^/" },
+        "action_webhook_env": { "type": "string" },
+        "information_webhook_env": { "type": "string" }
+      }
+    }
+  }
+}

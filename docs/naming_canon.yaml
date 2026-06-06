@@ -1,0 +1,22 @@
+version: "1"
+products:
+  miche_platform:
+    repo: Slimydog21/miche
+    package: miche
+    description: OS shell — home, island, inboxes, app registry
+    not_to_be_confused_with:
+      - caffenagent
+      - miche_harness
+  caffenagent:
+    repo: Slimydog21/caffenagent
+    package: caffenagent
+    description: Killer app — sessions, htmlspec, PRcrouch, Session Studio
+    rename_forbidden: true
+  miche_harness:
+    repo: Slimydog21/caffenagent
+    scope: project-miche device layer
+    description: PhonePanion, iPanion, on-the-go Miche routing — not platform home
+glossary:
+  Focus: Full-app chrome for depth workflows
+  Island: Ambient docked voice+chat on platform home
+  install_profile: Named registry overlay for tenant installs (MPLAT-SPR-08)
