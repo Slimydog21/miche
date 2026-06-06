@@ -64,7 +64,7 @@ def probe_app(
     use_cache: bool = True,
 ) -> ProbeResult:
     """Probe one app health endpoint."""
-    if use_cache and not owns_client_precheck(app):
+    if use_cache:
         cached = _cache.get(app.id)
         if cached is not None:
             return cached

@@ -68,6 +68,22 @@ def test_failure_not_cached_as_success(probe_log, monkeypatch):
     assert mock_client.get.call_count == 2
 
 
+def test_success_cached_on_second_call(probe_log, monkeypatch):
+    monkeypatch.setenv("CAFFENAGENT_PUBLIC_BASE_URL", "http://127.0.0.1:9999")
+
+    class FakeResp:
+        status_code = 200
+
+    mock_client = MagicMock(spec=httpx.Client)
+    mock_client.get.return_value = FakeResp()
+
+    r1 = probe_app(_app(), client=mock_client, use_cache=False)
+    r2 = probe_app(_app(), client=mock_client, use_cache=True)
+    assert r1.ok is True
+    assert r2.ok is True
+    assert mock_client.get.call_count == 1
+
+
 def test_probe_registry_writes_jsonl(probe_log, monkeypatch):
     monkeypatch.delenv("CAFFENAGENT_PUBLIC_BASE_URL", raising=False)
     from miche.registry import load_registry
