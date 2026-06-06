@@ -120,3 +120,12 @@ def test_engine_default_persona():
     payload = engine.resolve(context="home", audit=False)
     assert payload["persona_id"] == "engine"
     assert payload["animation_key"] in {"mug_wobble", "chug_cycle", "chug_1_2s"}
+
+
+def test_beverage_rotation_deterministic_for_context():
+    engine = PersonaEngine()
+    a = engine.resolve(context="home", audit=False)["beverage"]
+    b = engine.resolve(context="home", audit=False)["beverage"]
+    assert a == b
+    island = engine.resolve(context="island", audit=False)["beverage"]
+    assert island is not None
