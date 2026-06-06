@@ -2,3 +2,7 @@
 __pycache__/
 *.pyc
 .pytest_cache/*.pyc
+logs/
+node_modules/
+test-results/
+playwright-report/

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Miche mascot">
+  <rect x="4" y="8" width="40" height="32" rx="8" fill="#f9bd2b" stroke="#151515" stroke-width="2"/>
+  <circle cx="18" cy="22" r="4" fill="#151515"/>
+  <circle cx="30" cy="22" r="4" fill="#151515"/>
+  <path d="M16 30 Q24 36 32 30" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+</svg>

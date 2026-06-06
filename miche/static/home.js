@@ -77,10 +77,20 @@ function markEmptyInboxes() {
   }
 }
 
+async function initIsland() {
+  try {
+    const { mountFloatingIsland } = await import("./island.js");
+    mountFloatingIsland();
+  } catch (err) {
+    console.error("[miche-home] island mount failed", err);
+  }
+}
+
 function init() {
   assertMountContract();
   initInformationExpand();
   markEmptyInboxes();
+  initIsland();
 }
 
 if (document.readyState === "loading") {

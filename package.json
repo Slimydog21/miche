@@ -1,0 +1,12 @@
+{
+  "name": "miche-platform",
+  "private": true,
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:island": "playwright test tests/e2e/island_dock.spec.ts tests/e2e/island_a11y.spec.ts"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.52.0"
+  }
+}
