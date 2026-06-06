@@ -31,7 +31,7 @@ If you are the operator, do nothing: `MICHE_PROFILE` defaults to `operator_defau
    uv run python -m miche
    ```
 
-6. **Verify isolation**: Home should not show operator-only Focus chips. Router audit lines under `~/.miche/logs/` include `profile_id: friend`. Dispatch to an operator app id must fail closed.
+6. **Verify isolation**: Home should not show operator-only Focus chips. Router audit lines in `logs/miche_router_dispatch.jsonl` (or `MICHE_ROUTER_DISPATCH_LOG`) include `profile_id: friend`. Dispatch to an operator app id must fail closed.
 
 ## Hard failures (by design)
 

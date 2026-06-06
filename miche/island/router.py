@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from ..router.dispatch import dispatch_for_island, dispatch_mode
+from ..tenancy.profiles import active_profile_id
 
 
 def _default_utterance_log() -> Path:
@@ -69,6 +70,7 @@ def route_utterance(
         "text": body_text or None,
         "audio_blob_id": audio_blob_id,
         "source": source,
+        "profile_id": active_profile_id(),
         "needs_focus": result.get("needs_focus", False),
         "router_mode": result.get("router_mode", router_mode()),
         "router_decision_id": result.get("router_decision_id"),

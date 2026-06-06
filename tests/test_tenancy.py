@@ -12,6 +12,7 @@ import pytest
 
 from miche.registry import RegistryError, load_registry
 from miche.router.capability_map import CapabilityError, resolve_capability
+from miche.island.router import route_utterance
 from miche.router.dispatch import dispatch_utterance
 from miche.routes.home import render_home
 from miche.tenancy.profiles import (
@@ -163,6 +164,65 @@ def test_active_profile_id_env_override(monkeypatch):
     assert active_profile_id() == "friend"
     monkeypatch.delenv("MICHE_PROFILE", raising=False)
     assert active_profile_id() == "operator_default"
+
+
+def test_island_audit_tags_profile_id(monkeypatch, tmp_path):
+    log = tmp_path / "island.jsonl"
+    monkeypatch.setenv("MICHE_ROUTER_FIXTURE", "cassette")
+    monkeypatch.setenv("MICHE_ISLAND_ROUTER_FIXTURE", "cassette")
+    monkeypatch.delenv("MICHE_PROFILE", raising=False)
+    route_utterance(utterance_id="u-island", text="list sessions", audit_path=log)
+    row = json.loads(log.read_text().strip())
+    assert row["profile_id"] == "operator_default"
+
+
+def test_friend_dispatch_operator_app_rejected(monkeypatch):
+    monkeypatch.setenv("MICHE_PROFILE", "friend")
+    reg = load_registry(path=_FRIEND_REGISTRY)
+    monkeypatch.setattr(
+        "miche.router.dispatch.load_registry",
+        lambda path=None, skip_profile=False: reg,
+    )
+    with pytest.raises(CapabilityError, match="caffenagent"):
+        dispatch_utterance(
+            utterance_id="u-friend-dispatch",
+            text="ignored",
+            force_app_id="caffenagent",
+            force_capability="sessions",
+        )
+
+
+def test_friend_focus_operator_app_404(monkeypatch, client):
+    monkeypatch.setenv("MICHE_PROFILE", "friend")
+    monkeypatch.setattr(
+        "miche.routes.focus.load_registry",
+        lambda: load_registry(path=_FRIEND_REGISTRY),
+    )
+    r = client.get("/focus/caffenagent")
+    assert r.status_code == 404
+
+
+def test_friend_profile_clears_operator_env(monkeypatch, tmp_path):
+    monkeypatch.setenv("MICHE_PROFILE", "friend")
+    monkeypatch.setenv("CAFFENAGENT_PUBLIC_BASE_URL", "https://operator.secret.test")
+    monkeypatch.setattr("miche.tenancy.profiles._PROFILE_ROOT", tmp_path)
+    secrets_dir = tmp_path / "friend"
+    secrets_dir.mkdir(parents=True)
+    profile = load_install_profile("friend")
+    profile.secrets_path = str(secrets_dir / "secrets.env")
+    monkeypatch.setattr("miche.tenancy.profiles.load_install_profile", lambda profile_id=None: profile)
+    load_registry(path=_FRIEND_REGISTRY)
+    assert os.environ.get("CAFFENAGENT_PUBLIC_BASE_URL") is None
+
+
+def test_profile_yaml_id_must_match_filename(tmp_path, monkeypatch):
+    bad = tmp_path / "friend.yaml"
+    bad.write_text(
+        "profile_id: wrong_id\napps: []\nsecrets_path: ~/.miche/profiles/friend/secrets.env\n"
+    )
+    monkeypatch.setattr("miche.tenancy.profiles._PROFILES_DIR", tmp_path)
+    with pytest.raises(ProfileError, match="does not match file"):
+        load_install_profile("friend")
 
 
 def test_profile_apps_missing_from_registry_rejected(monkeypatch):

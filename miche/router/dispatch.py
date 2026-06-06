@@ -13,6 +13,7 @@ from typing import Any
 
 import jsonschema
 
+from ..registry import AppRegistry, load_registry
 from ..tenancy.profiles import active_profile_id
 from .capability_map import CapabilityError, resolve_capability
 
@@ -280,8 +281,9 @@ def _fixture_to_decision(
     fixture: dict[str, Any],
     mode: str,
     latency_ms: int,
+    registry: AppRegistry | None = None,
 ) -> dict[str, Any]:
-    resolved = resolve_capability(fixture["app_id"], fixture["capability"])
+    resolved = resolve_capability(fixture["app_id"], fixture["capability"], registry=registry)
     inline_card = _build_inline_card(
         fixture,
         resolved_invoke=resolved.invoke,
@@ -338,9 +340,10 @@ def dispatch_utterance(
         raise ValueError("text required")
 
     mode = dispatch_mode()
+    registry = load_registry()
 
     if force_app_id and force_capability:
-        resolve_capability(force_app_id, force_capability)
+        resolve_capability(force_app_id, force_capability, registry=registry)
         fixture = {
             "app_id": force_app_id,
             "capability": force_capability,
@@ -392,6 +395,7 @@ def dispatch_utterance(
         fixture=fixture,
         mode=mode,
         latency_ms=latency_ms,
+        registry=registry,
     )
 
     audit = {

@@ -63,13 +63,13 @@ def validate_secrets_path(raw: str, profile_id: str) -> Path:
     """Bound secrets_path to ~/.miche/profiles/<profile_id>/ — rigor §3."""
     if ".." in raw.split("/"):
         raise ProfileError("path traversal rejected in secrets_path")
+    allowed_root = (_PROFILE_ROOT / profile_id).resolve()
     expanded = Path(raw).expanduser()
     if not expanded.is_absolute():
-        expanded = (_PROFILE_ROOT / profile_id / expanded.name).resolve()
+        expanded = (allowed_root / expanded).resolve()
     else:
         expanded = expanded.resolve()
 
-    allowed_root = (_PROFILE_ROOT / profile_id).resolve()
     try:
         expanded.relative_to(allowed_root)
     except ValueError as exc:
@@ -126,12 +126,52 @@ def load_install_profile(profile_id: str | None = None) -> InstallProfile:
     except jsonschema.ValidationError as exc:
         raise ProfileError(str(exc.message), path=exc.json_path or str(path)) from exc
 
+    declared_id = str(data["profile_id"])
+    if declared_id != pid:
+        raise ProfileError(
+            f"profile_id {declared_id!r} does not match file {pid!r}",
+            path=str(path),
+        )
+
     return InstallProfile(
-        profile_id=str(data["profile_id"]),
+        profile_id=declared_id,
         apps=[str(a) for a in data.get("apps") or []],
         secrets_path=str(data["secrets_path"]),
         source_path=str(path),
     )
+
+
+def _env_keys_for_app(app) -> list[str]:
+    keys: list[str] = []
+    for key in (app.base_url_env, app.action_webhook_env, app.information_webhook_env):
+        if key:
+            keys.append(key)
+    return keys
+
+
+def _isolate_profile_env(registry: AppRegistry, profile: InstallProfile) -> None:
+    """Drop adapter env for apps outside the active allowlist (rigor §1)."""
+    if profile.profile_id == DEFAULT_PROFILE_ID:
+        return
+    allowed = set(profile.apps)
+    keys_to_clear: set[str] = set()
+    for app in registry.apps:
+        if app.id in allowed:
+            continue
+        keys_to_clear.update(_env_keys_for_app(app))
+
+    from ..registry import DEFAULT_REGISTRY_PATH, load_registry
+
+    try:
+        operator_reg = load_registry(path=DEFAULT_REGISTRY_PATH, skip_profile=True)
+        for app in operator_reg.apps:
+            if app.operator_only or app.id not in allowed:
+                keys_to_clear.update(_env_keys_for_app(app))
+    except Exception:
+        pass
+
+    for key in keys_to_clear:
+        os.environ.pop(key, None)
 
 
 def apply_active_profile(registry: AppRegistry) -> AppRegistry:
@@ -143,6 +183,7 @@ def apply_active_profile(registry: AppRegistry) -> AppRegistry:
             f"does not match registry install_profile {registry.install_profile!r}"
         )
 
+    _isolate_profile_env(registry, profile)
     apply_secrets(profile)
 
     registry_ids = {a.id for a in registry.apps}

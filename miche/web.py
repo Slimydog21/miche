@@ -14,11 +14,13 @@ from .routes.inbox import register_routes as register_inbox_routes
 from .routes.island import register_routes as register_island_routes
 from .routes.focus import register_routes as register_focus_routes
 from .routes.router import register_routes as register_router_routes
+from .registry import load_registry
 
 _STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 def create_app() -> FastAPI:
+    load_registry()
     app = FastAPI(title="Miche Platform", version="0.1.0")
 
     @app.get("/api/health")
