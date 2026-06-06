@@ -1,0 +1,7 @@
+{
+  "utterance_key": "stale sessions",
+  "expected_app_id": "caffenagent",
+  "expected_capability": "sessions",
+  "expected_card_type": "action_item",
+  "focus_optional": true
+}
