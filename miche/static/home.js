@@ -99,6 +99,27 @@ async function restoreFocusReturn() {
   }
 }
 
+async function initHomeMascot() {
+  const mount = document.getElementById("miche-home-mascot");
+  if (!mount) return;
+  try {
+    const params = new URLSearchParams({ context: "home" });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      params.set("reduced_motion", "true");
+    }
+    const r = await fetch(`/api/miche/persona?${params.toString()}`);
+    if (!r.ok) return;
+    const persona = await r.json();
+    const img = mount.querySelector("[data-mascot-sprite]");
+    if (img && persona.sprite_url) img.src = persona.sprite_url;
+    if (persona.animation_key && !persona.reduced_motion) {
+      mount.dataset.animation = persona.animation_key;
+    }
+  } catch (err) {
+    console.warn("[miche-home] mascot persona failed", err);
+  }
+}
+
 async function initIsland() {
   await restoreFocusReturn();
   try {
@@ -113,6 +134,7 @@ function init() {
   assertMountContract();
   initInformationExpand();
   markEmptyInboxes();
+  initHomeMascot();
   initIsland();
 }
 

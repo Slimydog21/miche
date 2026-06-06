@@ -1,0 +1,50 @@
+# Miche mascot personas — platform host contract (MPLAT-SPR-09)
+# Synced from caffenagent/interfaces/miche_mascot.yaml — see docs/miche_mascot.md in caffenagent repo.
+
+version: "1.0.0"
+
+character:
+  id: miche
+  role: general_assistant
+  design_inspiration: stitch_energy_original
+  forbidden_lookalikes:
+    - posthog_hedgehog
+    - disney_stitch
+  lemon_ui_tokens:
+    primary: "#1d4aff"
+    accent: "#F9BD2B"
+    stroke: "#151515"
+
+base_asset:
+  path: miche/static/mascot/miche-mascot-hero-static.png
+  fallback_svg: miche/static/miche-mascot.svg
+
+personas:
+  - id: engine
+    label: "Caffeine / Session Studio"
+    surfaces: [home, island, orchestrate, sessions, session_studio, caffenagent_web]
+    default_animation: chug_cycle
+    beverages:
+      coffee: [filtered, pour_over, espresso, cold_brew, aeropress, moka, french_press, thermos_on_the_go]
+      tea: [green_loose_leaf_pot, lipton_red_bag, turkish, moroccan_mint, japanese, chinese_gongfu]
+      energy: [celsius, white_monster, holy_energy_packet]
+    states:
+      idle: mug_wobble
+      working: chug_1_2s
+      blocked: empty_mug_honest
+
+  - id: moomba
+    label: "Moomba home + cleaning"
+    surfaces: [moomba_voice, miche_voice_route]
+    costume: cleaning_outfit
+    default_animation: ride_roomba
+
+  - id: explorer
+    label: "Penguin nature documentary"
+    surfaces: [voice_memo_outdoor]
+    default_animation: whisper_to_camera
+
+  - id: agi_gym
+    label: "AGI GYM training"
+    surfaces: [harness_eval, mimo_drill]
+    default_animation: jumping_jacks

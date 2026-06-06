@@ -14,6 +14,7 @@ from .routes.inbox import register_routes as register_inbox_routes
 from .routes.island import register_routes as register_island_routes
 from .routes.focus import register_routes as register_focus_routes
 from .routes.router import register_routes as register_router_routes
+from .routes.persona import register_routes as register_persona_routes
 from .registry import load_registry
 
 _STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -31,6 +32,7 @@ def create_app() -> FastAPI:
     register_inbox_routes(app)
     register_island_routes(app)
     register_router_routes(app)
+    register_persona_routes(app)
     register_focus_routes(app)
     register_home_routes(app)
     if _STATIC_DIR.is_dir():

@@ -6,6 +6,34 @@ import { MOUNT_ID } from "./home.js";
 
 const STORAGE_KEY = "island_expanded";
 
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+async function fetchPersona(context) {
+  const params = new URLSearchParams({ context });
+  if (prefersReducedMotion()) params.set("reduced_motion", "true");
+  const r = await fetch(`/api/miche/persona?${params.toString()}`);
+  if (!r.ok) throw new Error(`persona ${r.status}`);
+  return r.json();
+}
+
+function applyPersonaSprite(root, persona) {
+  if (!root || !persona) return;
+  const img = root.querySelector("[data-mascot-sprite], img");
+  if (!img) return;
+  const url = persona.sprite_url || persona.static_sprite_url;
+  if (url) img.src = url;
+  if (persona.animation_key && !persona.reduced_motion) {
+    root.dataset.animation = persona.animation_key;
+  } else {
+    delete root.dataset.animation;
+  }
+  if (persona.persona_render_id) {
+    root.dataset.personaRenderId = persona.persona_render_id;
+  }
+}
+
 function escapeHtml(text) {
   return String(text)
     .replace(/&/g, "&amp;")
@@ -72,6 +100,16 @@ export class FloatingIsland {
     this._bind();
     this._restoreExpanded();
     this._loadThread();
+    this._loadPersona();
+  }
+
+  async _loadPersona() {
+    try {
+      const persona = await fetchPersona("island");
+      applyPersonaSprite(this.pill, persona);
+    } catch (err) {
+      console.warn("[miche-island] persona load failed", err);
+    }
   }
 
   _build() {
@@ -81,7 +119,7 @@ export class FloatingIsland {
     this.root.setAttribute("data-island-state", "collapsed");
     this.root.innerHTML = `
       <button type="button" class="miche-island__pill" aria-expanded="false" aria-controls="miche-island-panel">
-        <img src="/static/miche-mascot.svg" alt="" width="28" height="28" />
+        <img src="/static/miche-mascot.svg" alt="" width="28" height="28" data-mascot-sprite />
         <span>Ask Miche</span>
       </button>
       <div id="miche-island-panel" class="miche-island__panel" role="region" aria-label="Miche assistant">

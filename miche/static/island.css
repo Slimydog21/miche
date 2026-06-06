@@ -43,6 +43,17 @@
   height: 28px;
 }
 
+.miche-island__pill[data-animation="mug_wobble"] img,
+.miche-island__pill[data-animation="chug_cycle"] img {
+  animation: miche-mascot-wobble 2.4s ease-in-out infinite;
+}
+
+@keyframes miche-mascot-wobble {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  75% { transform: rotate(4deg); }
+}
+
 .miche-island__panel {
   display: none;
   flex-direction: column;
@@ -226,6 +237,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .miche-island__pill[data-animation] img {
+    animation: none;
+  }
   .miche-island__recording-ring {
     animation: none;
   }
