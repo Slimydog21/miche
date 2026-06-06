@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://miche.local/schemas/miche_router_decision.json",
+  "title": "MicheRouterDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "router_decision_id",
+    "utterance_id",
+    "utterance_hash",
+    "app_id",
+    "capability",
+    "args",
+    "needs_focus"
+  ],
+  "properties": {
+    "router_decision_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "utterance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "utterance_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "app_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability": {
+      "type": "string",
+      "minLength": 1
+    },
+    "args": {
+      "type": "object"
+    },
+    "needs_focus": {
+      "type": "boolean"
+    },
+    "inline_card": {
+      "type": ["object", "null"],
+      "additionalProperties": true
+    },
+    "reply_markdown": {
+      "type": "string"
+    },
+    "router_mode": {
+      "type": "string"
+    },
+    "latency_ms": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

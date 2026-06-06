@@ -73,12 +73,13 @@ def test_info_summary_card_type(audit_log):
 
 
 def test_timeout_badge_when_slow(monkeypatch, audit_log):
-    times = iter([0.0, 6.0])
+    times = iter([0.0, 0.0, 0.0, 6.0])
 
     def fake_monotonic():
-        return next(times)
+        return next(times, 6.0)
 
     monkeypatch.setattr("miche.island.router.time.monotonic", fake_monotonic)
+    monkeypatch.setattr("miche.router.dispatch.time.monotonic", fake_monotonic)
     result = route_utterance(utterance_id="u-slow", text="hello", audit_path=audit_log)
     assert result.get("timeout_badge") is True
 
