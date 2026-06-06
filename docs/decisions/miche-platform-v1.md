@@ -40,4 +40,4 @@ Pending human visual review of island + mascot on deploy; mechanical gates green
 
 ## v2 follow-up
 
-Hawkins hardening track: `/Users/slimydog/specs/miche-platform-v2/`. MPLAT2-SPR-01 fixes router mode honesty — see [router-mode-honesty.md](./router-mode-honesty.md).
+Hawkins hardening track: `/Users/slimydog/specs/miche-platform-v2/`. v2 complete — see [miche-platform-v2.md](./miche-platform-v2.md).

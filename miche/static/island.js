@@ -61,11 +61,11 @@ function renderInlineCard(card) {
     const expanded = sessionStorage.getItem(STORAGE_KEY) === "true";
     const qs = new URLSearchParams({ path: card.focus_route });
     if (expanded) qs.set("island_expanded", "true");
-    cta = `<a class="miche-island__focus-cta" href="/focus/${escapeHtml(appId)}?${qs.toString()}" data-focus-cta="true">Open in Focus</a>`;
+    cta = `<a class="miche-island__focus-cta miche-island__inline-card" href="/focus/${escapeHtml(appId)}?${qs.toString()}" data-focus-cta="true" data-testid="island-focus-cta">Open in Focus</a>`;
   } else if (card.deep_link) {
     cta = `<a class="miche-island__focus-cta" href="${escapeHtml(card.deep_link)}">${type === "info_summary" ? "View summary" : "Open"}</a>`;
   }
-  return `<div class="miche-island__card miche-island__card--${type}" data-card-type="${type}">
+  return `<div class="miche-island__card miche-island__inline-card miche-island__card--${type}" data-card-type="${type}">
     <span class="miche-island__card-type">${type} · ${app}</span>
     <strong>${title}</strong>
     <p>${body}</p>${cta}
@@ -226,12 +226,9 @@ export class FloatingIsland {
     try {
       const r = await fetch("/api/platform/island/thread");
       const body = await r.json();
-      if (body.router_mode === "cassette" || body.router_mode === "production_unavailable") {
+      if (body.router_mode === "cassette") {
         this.cassetteBanner.hidden = false;
-        this.cassetteBanner.textContent =
-          body.router_mode === "cassette"
-            ? "Router cassette mode (dev)"
-            : "Production router unavailable — honest degraded mode";
+        this.cassetteBanner.textContent = "Router cassette mode (dev)";
       }
       for (const msg of body.messages || []) {
         this._appendMessage(msg.role, msg.content, msg.inline_cards, msg.created_at);

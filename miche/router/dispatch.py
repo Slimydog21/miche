@@ -242,8 +242,6 @@ def _match_production(text: str) -> dict[str, Any] | None:
         return CASSETTE_FIXTURES["htmlspec"]
     if "blocked" in lowered and "session" not in lowered:
         return None
-    if "stale" in lowered and "session" in lowered:
-        return CASSETTE_FIXTURES["stale sessions"]
     if "deploy" in lowered:
         return CASSETTE_FIXTURES["deploy health"]
     if "gap" in lowered or "egghead" in lowered:

@@ -13,15 +13,18 @@ from typing import Any
 from ..router.dispatch import dispatch_for_island, dispatch_mode
 from ..tenancy.profiles import active_profile_id
 
+# Tests monkeypatch this; production prefers MICHE_ISLAND_UTTERANCE_LOG env.
+_UTTERANCE_LOG: Path = Path("logs/miche_island_utterance.jsonl")
+
 
 def _default_utterance_log() -> Path:
     override = os.environ.get("MICHE_ISLAND_UTTERANCE_LOG", "").strip()
     if override:
         return Path(override)
-    return Path("logs/miche_island_utterance.jsonl")
+    return _UTTERANCE_LOG
 
 
-_UTTERANCE_LOG = _default_utterance_log()
+
 
 
 def _iso_now() -> str:
@@ -29,7 +32,7 @@ def _iso_now() -> str:
 
 
 def utterance_log_path() -> Path:
-    return _UTTERANCE_LOG
+    return _default_utterance_log()
 
 
 def router_mode() -> str:
@@ -37,7 +40,7 @@ def router_mode() -> str:
 
 
 def _append_utterance_audit(row: dict[str, Any], *, path: Path | None = None) -> None:
-    log = path or _UTTERANCE_LOG
+    log = path or _default_utterance_log()
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("a") as f:
         f.write(json.dumps(row) + "\n")

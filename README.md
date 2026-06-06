@@ -1,5 +1,7 @@
 # Miche Platform
 
+![platform](https://github.com/Slimydog21/miche/actions/workflows/platform.yml/badge.svg)
+
 OS shell for operator home, floating island, inboxes, and app registry.
 
 - **Repo:** Slimydog21/miche (this)
@@ -24,6 +26,17 @@ bash scripts/check_platform.sh
 ```
 
 Requires Node 20+, `uv`, and Playwright browsers (`npx playwright install chromium`).
+
+## Merge handoff (MPLAT2-SPR-07)
+
+After `platform / check` is green on GitHub Actions:
+
+```bash
+git push origin main
+# optional: /PRcrouch to verify deploy
+```
+
+Required check: **platform / check**. Advisory: **platform / hardenx-advisory**.
 
 ## MPLAT-SPR-01
 

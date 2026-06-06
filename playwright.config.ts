@@ -5,7 +5,8 @@ export default defineConfig({
   timeout: 30000,
   use: {
     baseURL: "http://127.0.0.1:8799",
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
   },
   webServer: {
     command:
@@ -13,6 +14,7 @@ export default defineConfig({
     url: "http://127.0.0.1:8799/api/health",
     reuseExistingServer: true,
     env: {
+      MICHE_ROUTER_FIXTURE: "cassette",
       MICHE_ISLAND_ROUTER_FIXTURE: "cassette",
       MICHE_ISLAND_THREAD_PATH: "logs/e2e_island_thread.jsonl",
       MICHE_ISLAND_UTTERANCE_LOG: "logs/e2e_island_utterance.jsonl",

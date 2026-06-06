@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# MPLAT-SPR-10 — Miche Platform capstone: island triage → inline card → audit bundle.
+# MPLAT-SPR-10 / MPLAT2-SPR-06 — Platform capstone: island triage → audit bundle + rules_v0 smoke.
 # Usage: bash harness/miche_platform_capstone_drill.sh --cassette
 set -euo pipefail
 
@@ -25,6 +25,7 @@ TMP_LOG="$(mktemp -d)"
 export MICHE_ROUTER_DISPATCH_LOG="${TMP_LOG}/router.jsonl"
 export MICHE_ISLAND_UTTERANCE_LOG="${TMP_LOG}/island.jsonl"
 export MICHE_PERSONA_RENDER_LOG="${TMP_LOG}/persona.jsonl"
+export CAPSTONE_RUN_ID
 
 echo "miche_platform_capstone_drill: capstone_run_id=${CAPSTONE_RUN_ID}"
 echo "miche_platform_capstone_drill: step 1 — home shell + persona (no network)"
@@ -79,6 +80,44 @@ assert body.get("router_decision_id")
 print(f"  utterance routed app={body.get('inline_cards')[0].get('source_app_id')} cards={len(body['inline_cards'])}")
 PY
 
+echo "miche_platform_capstone_drill: step 2b — rules_v0 smoke (no cassette env)"
+uv run python - <<'PY'
+import json
+import os
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+from miche.web import create_app
+
+for key in ("MICHE_ROUTER_FIXTURE", "MICHE_ISLAND_ROUTER_FIXTURE"):
+    os.environ.pop(key, None)
+
+tmpdir = Path(os.environ["MICHE_ROUTER_DISPATCH_LOG"]).parent
+rules_log = tmpdir / "rules_router.jsonl"
+os.environ["MICHE_ROUTER_DISPATCH_LOG"] = str(rules_log)
+
+client = TestClient(create_app())
+resp = client.post(
+    "/api/miche/router/dispatch",
+    json={"utterance_id": "rules-1", "text": "list sessions"},
+)
+assert resp.status_code == 200, resp.text
+row = json.loads(rules_log.read_text().strip().splitlines()[-1])
+assert row["router_mode"] == "rules_v0", row
+
+blocked_log = tmpdir / "blocked_router.jsonl"
+os.environ["MICHE_ROUTER_DISPATCH_LOG"] = str(blocked_log)
+resp2 = client.post(
+    "/api/miche/router/dispatch",
+    json={"utterance_id": "rules-2", "text": "what is blocked right now"},
+)
+assert resp2.status_code == 200
+row2 = json.loads(blocked_log.read_text().strip().splitlines()[-1])
+assert row2["router_mode"] == "inbox_fallback", row2
+print(f"  rules_v0 ok; inbox_fallback ok")
+PY
+
 echo "miche_platform_capstone_drill: step 3 — inbox + optional focus contract"
 uv run python - <<'PY'
 import json
@@ -126,19 +165,23 @@ assert router_row.get("router_decision_id")
 island_row = json.loads(island_log.read_text().strip().splitlines()[-1])
 assert island_row.get("profile_id")
 
+signoff = Path("docs/decisions/island-craft-signoff.md")
+craft_sha = signoff.read_text(encoding="utf-8")[:64] if signoff.is_file() else None
 handoff = {
-    "capstone_run_id": "${CAPSTONE_RUN_ID}",
+    "capstone_run_id": os.environ.get("CAPSTONE_RUN_ID", "unknown"),
     "mode": "cassette",
+    "check_platform_version": "scripts/check_platform.sh",
+    "craft_signoff_present": signoff.is_file(),
     "router_evidence": router_row,
     "island_evidence": island_row,
 }
 out = Path("harness/fixtures/platform_capstone/last_capstone_handoff.json")
-out.write_text(json.dumps(handoff, indent=2) + "\\n")
+out.write_text(json.dumps(handoff, indent=2) + "\n")
 print(f"  handoff archived {out}")
 PY
 
-echo "miche_platform_capstone_drill: step 5 — pytest full suite"
+echo "miche_platform_capstone_drill: step 5 — capstone contract tests (narrow; check_platform runs full suite)"
 unset MICHE_ROUTER_DISPATCH_LOG MICHE_ISLAND_UTTERANCE_LOG MICHE_PERSONA_RENDER_LOG
-uv run pytest -q --tb=line
+uv run pytest -q --tb=line tests/test_platform_capstone.py
 
 echo "miche_platform_capstone_drill: --cassette OK capstone_run_id=${CAPSTONE_RUN_ID}"

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["capstone_run_id", "mode", "router_evidence", "island_evidence", "check_platform_version"],
+  "properties": {
+    "capstone_run_id": { "type": "string", "minLength": 1 },
+    "mode": { "const": "cassette" },
+    "check_platform_version": { "type": "string" },
+    "craft_signoff_present": { "type": "boolean" },
+    "router_evidence": { "type": "object" },
+    "island_evidence": { "type": "object" }
+  }
+}

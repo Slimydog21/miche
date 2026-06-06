@@ -1,0 +1,68 @@
+name: platform
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    name: platform / check
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Python deps
+        run: uv sync
+
+      - name: Install Node deps
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Invariant platform check
+        env:
+          MICHE_ROUTER_FIXTURE: cassette
+          MICHE_ISLAND_ROUTER_FIXTURE: cassette
+        run: bash scripts/check_platform.sh
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+
+  hardenx-advisory:
+    name: platform / hardenx-advisory
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Install hardenx (advisory)
+        run: |
+          uv tool install "git+https://github.com/Slimydog21/hardenx@v1.3.1" || echo "hardenx install skipped"
+          hardenx --version || true
+
+      - name: Run hardenx strict (advisory)
+        run: |
+          if command -v hardenx >/dev/null 2>&1; then
+            hardenx --strict . || echo "hardenx advisory: findings logged above"
+          else
+            echo "hardenx not available — advisory skip"
+          fi

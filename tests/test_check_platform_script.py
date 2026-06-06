@@ -26,6 +26,6 @@ def test_check_platform_dry_run_lists_steps():
     assert "capstone-cassette" in out.stdout
 
 
-def test_check_platform_script_is_executable():
+def test_check_platform_script_has_shebang():
     assert SCRIPT.is_file()
-    assert os.access(SCRIPT, os.X_OK) or True  # bash invoked explicitly
+    assert SCRIPT.read_text().startswith("#!/usr/bin/env bash")

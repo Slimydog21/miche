@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test:e2e": "playwright test",
-    "test:e2e:island": "playwright test tests/e2e/island_dock.spec.ts tests/e2e/island_a11y.spec.ts"
+    "test:e2e:island": "playwright test tests/e2e/island_dock.spec.ts tests/e2e/island_a11y.spec.ts tests/e2e/golden_path.spec.ts tests/e2e/island_craft_snap.spec.ts",
+    "test:e2e:golden": "playwright test tests/e2e/golden_path.spec.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
