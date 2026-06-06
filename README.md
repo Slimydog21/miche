@@ -10,9 +10,20 @@ OS shell for operator home, floating island, inboxes, and app registry.
 
 ```bash
 uv sync
-uv run pytest tests/test_miche_app_registry.py tests/test_miche_health_probe.py tests/test_miche_apps_routes.py -q
+npm ci
+npx playwright install chromium
+make check   # invariant gate: registry + pytest + e2e + capstone
 uv run miche  # dev server :8787
 ```
+
+## Invariant gate (MPLAT2-SPR-02)
+
+```bash
+bash scripts/check_platform.sh
+# or: make check
+```
+
+Requires Node 20+, `uv`, and Playwright browsers (`npx playwright install chromium`).
 
 ## MPLAT-SPR-01
 

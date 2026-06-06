@@ -137,8 +137,8 @@ out.write_text(json.dumps(handoff, indent=2) + "\\n")
 print(f"  handoff archived {out}")
 PY
 
-echo "miche_platform_capstone_drill: step 5 — pytest smoke"
+echo "miche_platform_capstone_drill: step 5 — pytest full suite"
 unset MICHE_ROUTER_DISPATCH_LOG MICHE_ISLAND_UTTERANCE_LOG MICHE_PERSONA_RENDER_LOG
-uv run pytest tests/test_intent_router.py tests/test_mascot_persona.py -q --tb=line
+uv run pytest -q --tb=line
 
 echo "miche_platform_capstone_drill: --cassette OK capstone_run_id=${CAPSTONE_RUN_ID}"
