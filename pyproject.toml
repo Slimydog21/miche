@@ -36,3 +36,4 @@ packages = ["miche"]
 "interfaces" = "interfaces"
 "miche/templates" = "miche/templates"
 "miche/static" = "miche/static"
+"schemas" = "schemas"

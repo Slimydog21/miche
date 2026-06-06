@@ -1,0 +1,1 @@
+"""App-specific inbox adapters — MPLAT-SPR-03+."""

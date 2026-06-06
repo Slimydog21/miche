@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://miche.local/schemas/miche_action_item.json",
+  "title": "MicheActionItem",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action_id",
+    "title",
+    "severity",
+    "source_app",
+    "stale",
+    "created_at"
+  ],
+  "properties": {
+    "action_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Stable row id for audit and dedup"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "detail": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["blocking", "soon", "nit"]
+    },
+    "source_app": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stale": {
+      "type": "boolean",
+      "description": "True when source app data is degraded or probe failed"
+    },
+    "focus_deep_link": {
+      "type": "string",
+      "pattern": "^/"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

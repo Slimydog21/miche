@@ -47,12 +47,40 @@
         id="miche-action-inbox"
         class="miche-inbox__body"
         data-inbox="action"
-        data-empty="true"
+        data-empty="{{ 'false' if action_items else 'true' }}"
         role="region"
         aria-live="polite"
       >
+        {% if action_items %}
+        <ul class="miche-action-list">
+          {% for item in action_items %}
+          <li
+            class="miche-action-row miche-action-row--{{ item.severity }}{% if item.stale %} miche-action-row--stale{% endif %}"
+            data-inbox-row
+            data-action-id="{{ item.action_id }}"
+            data-source-app="{{ item.source_app }}"
+          >
+            <div class="miche-action-row__main">
+              <span class="miche-action-row__severity">{{ item.severity }}</span>
+              <strong class="miche-action-row__title">{{ item.title }}</strong>
+              {% if item.detail %}<p class="miche-action-row__detail">{{ item.detail }}</p>{% endif %}
+              <span class="miche-action-row__source">{{ item.source_app }}</span>
+              {% if item.stale %}<span class="miche-action-row__badge">stale</span>{% endif %}
+            </div>
+            {% if item.focus_deep_link %}
+            <a
+              class="miche-action-row__link"
+              href="/focus/{{ item.source_app }}?path={{ item.focus_deep_link }}"
+              data-focus-deep-link="{{ item.focus_deep_link }}"
+            >Open in Focus</a>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
         <p class="miche-empty__title">Nothing queued yet</p>
         <p class="miche-empty__copy">When registered apps report PRs, stale sessions, or failed gates, they appear here with source and a deep link. Capture voice on the island below; register apps in <code>interfaces/miche_app_registry.yaml</code> — no demo rows.</p>
+        {% endif %}
       </div>
     </section>
 

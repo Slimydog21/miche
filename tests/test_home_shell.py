@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi.testclient import TestClient
@@ -41,7 +41,15 @@ def test_mount_id_frozen_in_js_and_layout_version_in_meta():
     assert ctx["layout_version"] == _LAYOUT_VERSION
 
 
-def test_empty_inboxes_honest_no_demo_rows(client):
+def test_empty_inboxes_honest_no_demo_rows(client, monkeypatch):
+    class EmptySnap:
+        items = []
+        apps = []
+
+    monkeypatch.setattr(
+        "miche.routes.home._action_aggregator",
+        MagicMock(collect=MagicMock(return_value=EmptySnap)),
+    )
     r = client.get("/")
     html = r.text.lower()
     assert "lorem ipsum" not in html

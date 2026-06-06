@@ -9,7 +9,11 @@ from fastapi import Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
+from ..adapters.caffenagent_actions import make_fetcher
+from ..inbox.action import ActionInboxAggregator
 from ..registry import AppRegistry, RegistryError, load_registry
+
+_action_aggregator = ActionInboxAggregator(fetcher=make_fetcher())
 
 _LAYOUT_VERSION = "1"
 MOUNT_ELEMENT_ID = "miche-island-mount"
@@ -43,11 +47,20 @@ def render_home(*, registry: AppRegistry | None = None) -> dict[str, Any]:
             registry_error = str(exc)
             reg = AppRegistry(version="0", install_profile="degraded", apps=[], source_path="")
 
+    action_items: list[dict[str, Any]] = []
+    action_apps: list[dict[str, Any]] = []
+    if registry_error is None:
+        snap = _action_aggregator.collect()
+        action_items = snap.items
+        action_apps = snap.apps
+
     return {
         "layout_version": _LAYOUT_VERSION,
         "install_profile": reg.install_profile,
         "app_chips": _chip_apps(reg),
         "registry_error": registry_error,
+        "action_items": action_items,
+        "action_apps": action_apps,
     }
 
 
