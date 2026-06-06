@@ -48,7 +48,8 @@
       "type": "string"
     },
     "router_mode": {
-      "type": "string"
+      "type": "string",
+      "enum": ["cassette", "rules_v0", "inbox_fallback", "error"]
     },
     "latency_ms": {
       "type": "integer",

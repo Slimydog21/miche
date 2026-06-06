@@ -137,13 +137,12 @@ def router_log_path() -> Path:
 
 
 def dispatch_mode() -> str:
+    """Honest router modes: cassette (offline tests) or rules_v0 (keyword classifier)."""
     if os.environ.get("MICHE_ROUTER_FIXTURE", "").strip().lower() == "cassette":
         return "cassette"
     if os.environ.get("MICHE_ISLAND_ROUTER_FIXTURE", "").strip().lower() == "cassette":
         return "cassette"
-    if os.environ.get("MICHE_ROUTER_LLM_API_KEY", "").strip():
-        return "llm"
-    return "production"
+    return "rules_v0"
 
 
 def _utterance_hash(text: str) -> str:
@@ -358,17 +357,15 @@ def dispatch_utterance(
         fixture = _match_cassette(body)
         if not fixture:
             fixture = CASSETTE_FIXTURES["hello miche"]
-    elif mode == "llm":
-        fixture = _match_production(body)
-        mode = "rules"
     else:
         fixture = _match_production(body)
         if fixture is None:
             latency_ms = int((time.monotonic() - started) * 1000)
+            fallback_mode = "inbox_fallback"
             result = _blocked_inbox_decision(
                 utterance_id=utterance_id,
                 text=body,
-                mode=mode,
+                mode=fallback_mode,
                 latency_ms=latency_ms,
             )
             audit = {
@@ -381,7 +378,7 @@ def dispatch_utterance(
                 "app_id": result["app_id"],
                 "capability": result["capability"],
                 "needs_focus": False,
-                "router_mode": mode,
+                "router_mode": fallback_mode,
                 "latency_ms": latency_ms,
                 "created_at": _iso_now(),
             }

@@ -37,3 +37,7 @@ Exit 0 proves island-first triage → inline router card → inbox APIs → audi
 ## Operator sign-off
 
 Pending human visual review of island + mascot on deploy; mechanical gates green on `main`.
+
+## v2 follow-up
+
+Hawkins hardening track: `/Users/slimydog/specs/miche-platform-v2/`. MPLAT2-SPR-01 fixes router mode honesty — see [router-mode-honesty.md](./router-mode-honesty.md).

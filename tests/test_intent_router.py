@@ -70,7 +70,7 @@ def test_cassette_fixtures_locked(utterance, router_log):
     assert router_log.read_text().strip()
 
 
-def test_production_blocked_uses_inbox(monkeypatch, router_log):
+def test_rules_v0_blocked_uses_inbox_fallback(monkeypatch, router_log):
     monkeypatch.delenv("MICHE_ROUTER_FIXTURE", raising=False)
     monkeypatch.delenv("MICHE_ISLAND_ROUTER_FIXTURE", raising=False)
     monkeypatch.setattr("miche.router.dispatch._ROUTER_LOG", router_log)
@@ -81,6 +81,9 @@ def test_production_blocked_uses_inbox(monkeypatch, router_log):
     )
     assert result["app_id"] == "miche"
     assert result["capability"] == "inbox_action"
+    assert result["router_mode"] == "inbox_fallback"
+    audit = json.loads(router_log.read_text().strip().splitlines()[-1])
+    assert audit["router_mode"] == "inbox_fallback"
 
 
 def test_stale_sessions_routes_to_sessions_list(router_log):
@@ -155,15 +158,30 @@ def test_dispatch_api_writes_audit(client, router_log, monkeypatch):
     assert audit["utterance_hash"] == body["utterance_hash"]
 
 
-def test_production_mode_without_fixture(monkeypatch, router_log):
+@pytest.mark.parametrize(
+    "text,expected_capability,needs_focus",
+    [
+        ("any stale sessions?", "sessions", False),
+        ("please open studio now", "studio", True),
+    ],
+)
+def test_rules_v0_classifier(monkeypatch, router_log, text, expected_capability, needs_focus):
     monkeypatch.delenv("MICHE_ROUTER_FIXTURE", raising=False)
     monkeypatch.delenv("MICHE_ISLAND_ROUTER_FIXTURE", raising=False)
-    monkeypatch.delenv("MICHE_ROUTER_LLM_API_KEY", raising=False)
     monkeypatch.setattr("miche.router.dispatch._ROUTER_LOG", router_log)
     result = dispatch_utterance(
-        utterance_id="u-prod",
-        text="open studio",
+        utterance_id="u-rules",
+        text=text,
         audit_path=router_log,
     )
-    assert result["router_mode"] == "production"
-    assert result["needs_focus"] is True
+    assert result["router_mode"] == "rules_v0"
+    assert result["capability"] == expected_capability
+    assert result["needs_focus"] is needs_focus
+    audit = json.loads(router_log.read_text().strip().splitlines()[-1])
+    assert audit["router_mode"] == "rules_v0"
+
+
+def test_router_audit_mode_matches_dispatch_cassette(router_log):
+    dispatch_utterance(utterance_id="u-audit", text="list sessions", audit_path=router_log)
+    audit = json.loads(router_log.read_text().strip().splitlines()[-1])
+    assert audit["router_mode"] == "cassette"
