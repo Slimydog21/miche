@@ -1,0 +1,284 @@
+/* miche.css — Lemon layout tokens + home shell (MPLAT-SPR-02) */
+
+:root {
+  --color-primary: #1d4aff;
+  --color-primary-dark: #1330b0;
+  --color-accent: #f9bd2b;
+  --color-accent-dark: #d99e10;
+  --color-success: #1a7f4f;
+  --color-warning: #c47a00;
+  --color-danger: #c63d24;
+  --color-black: #151515;
+  --color-ink: #2c2c2c;
+  --color-muted: #6b6b6b;
+  --color-line: #cfcfcf;
+  --color-bg: #fafaf7;
+  --color-bg-card: #ffffff;
+  --color-bg-soft: #f3f1ea;
+  --radius: 6px;
+  --radius-sm: 4px;
+  --border: 2px solid var(--color-black);
+  --border-thin: 1px solid var(--color-line);
+  --shadow-card: 4px 4px 0 0 var(--color-black);
+  --shadow-card-sm: 2px 2px 0 0 var(--color-black);
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --home-max-width: 1280px;
+  --home-gutter: var(--spacing-4);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.miche-home {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--spacing-2);
+  z-index: 100;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--color-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.skip-link:focus {
+  left: var(--spacing-2);
+}
+
+.miche-banner {
+  max-width: var(--home-max-width);
+  margin: var(--spacing-4) auto 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff5dd;
+  border-left: 4px solid var(--color-warning);
+  font-size: 14px;
+}
+
+.miche-banner p {
+  margin: 0;
+}
+
+.miche-header {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-6) var(--home-gutter) var(--spacing-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.miche-header__eyebrow {
+  margin: 0 0 var(--spacing-2);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-weight: 600;
+}
+
+.miche-header__title {
+  margin: 0 0 var(--spacing-2);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 800;
+  color: var(--color-black);
+}
+
+.miche-header__lede {
+  margin: 0;
+  max-width: 42rem;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.miche-header__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  align-items: center;
+}
+
+.miche-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--color-black);
+  background: var(--color-bg-card);
+  border: var(--border);
+  border-radius: 999px;
+  box-shadow: var(--shadow-card-sm);
+}
+
+.miche-chip:hover {
+  background: var(--color-bg-soft);
+}
+
+.miche-main {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: 0 var(--home-gutter) calc(var(--spacing-8) + 72px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 768px) {
+  .miche-main {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-6);
+  }
+}
+
+.miche-inbox {
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  min-height: 280px;
+}
+
+.miche-inbox__head {
+  padding: var(--spacing-5) var(--spacing-5) var(--spacing-3);
+  border-bottom: var(--border-thin);
+}
+
+.miche-inbox__head h2 {
+  margin: 0 0 var(--spacing-2);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-black);
+}
+
+.miche-inbox--action .miche-inbox__head h2 {
+  border-left: 4px solid var(--color-warning);
+  padding-left: var(--spacing-3);
+}
+
+.miche-inbox--information .miche-inbox__head h2 {
+  border-left: 4px solid var(--color-primary);
+  padding-left: var(--spacing-3);
+}
+
+.miche-inbox__subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.miche-inbox__body {
+  flex: 1;
+  padding: var(--spacing-5);
+}
+
+.miche-inbox__body[data-empty="true"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--spacing-2);
+}
+
+.miche-empty__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.miche-empty__copy {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.miche-empty__copy code {
+  font-size: 12px;
+  background: var(--color-bg-soft);
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  padding: 1px 5px;
+}
+
+.miche-island-mount {
+  position: fixed;
+  right: var(--spacing-4);
+  bottom: var(--spacing-4);
+  width: min(360px, calc(100vw - 2 * var(--home-gutter)));
+  min-height: 56px;
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--color-bg-soft);
+  box-shadow: var(--shadow-card-sm);
+  /* SPR-05 FloatingIsland must set pointer-events: auto when interactive. */
+  pointer-events: none;
+}
+
+.miche-island-mount::before {
+  content: "Island mounts here (SPR-05)";
+  display: block;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .miche-chip {
+    transition: none;
+  }
+
+  .miche-island-mount {
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --home-gutter: var(--spacing-3);
+  }
+
+  .miche-header {
+    padding-top: var(--spacing-4);
+  }
+
+  .miche-inbox {
+    min-height: 220px;
+  }
+
+  .miche-island-mount {
+    left: var(--home-gutter);
+    right: var(--home-gutter);
+    width: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .miche-main {
+    padding-bottom: var(--spacing-8);
+  }
+}

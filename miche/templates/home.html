@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <title>Miche — home</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <script type="module" src="/static/home.js" defer></script>
+</head>
+<body class="miche-home" data-layout-version="{{ layout_version }}">
+  <a class="skip-link" href="#miche-main">Skip to inbox</a>
+
+  {% if registry_error %}
+  <div class="miche-banner miche-banner--warning" role="alert">
+    <p>App registry unavailable — home shell is degraded. Fix <code>interfaces/miche_app_registry.yaml</code>: {{ registry_error }}</p>
+  </div>
+  {% endif %}
+
+  <header class="miche-header" role="banner">
+    <div class="miche-header__brand">
+      <p class="miche-header__eyebrow">Miche Platform</p>
+      <h1 class="miche-header__title">Home</h1>
+      <p class="miche-header__lede">Triage action and information first. Talk on the island; open Focus only when depth needs full chrome.</p>
+    </div>
+    {% if app_chips %}
+    <nav class="miche-header__chips" aria-label="Open app in Focus">
+      {% for chip in app_chips %}
+      <a
+        class="miche-chip"
+        href="{{ chip.href }}"
+        data-app-id="{{ chip.id }}"
+        data-focus-route="{{ chip.focus_route }}"
+      >{{ chip.display_name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+
+  <main id="miche-main" class="miche-main" role="main">
+    <section class="miche-inbox miche-inbox--action" aria-labelledby="action-inbox-heading">
+      <header class="miche-inbox__head">
+        <h2 id="action-inbox-heading">Action</h2>
+        <p class="miche-inbox__subtitle">Must do — engage when something blocks progress.</p>
+      </header>
+      <div
+        id="miche-action-inbox"
+        class="miche-inbox__body"
+        data-inbox="action"
+        data-empty="true"
+        role="region"
+        aria-live="polite"
+      >
+        <p class="miche-empty__title">Nothing queued yet</p>
+        <p class="miche-empty__copy">When registered apps report PRs, stale sessions, or failed gates, they appear here with source and a deep link. Capture voice on the island below; register apps in <code>interfaces/miche_app_registry.yaml</code> — no demo rows.</p>
+      </div>
+    </section>
+
+    <section class="miche-inbox miche-inbox--information" aria-labelledby="information-inbox-heading">
+      <header class="miche-inbox__head">
+        <h2 id="information-inbox-heading">Information</h2>
+        <p class="miche-inbox__subtitle">Should understand — context before you commit attention.</p>
+      </header>
+      <div
+        id="miche-information-inbox"
+        class="miche-inbox__body"
+        data-inbox="information"
+        data-empty="true"
+        role="region"
+        aria-live="polite"
+      >
+        <p class="miche-empty__title">No summaries yet</p>
+        <p class="miche-empty__copy">Gap summaries, deploy health, and Miche audit snippets land here once apps wire their information webhooks. Empty is honest — we do not fabricate sessions or fake-green status.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="miche-island-mount" class="miche-island-mount" data-island-ready="false" aria-label="Floating island mount (SPR-05)"></div>
+</body>
+</html>

@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
   "fastapi>=0.136.1",
   "httpx>=0.27",
+  "jinja2>=3.1",
   "jsonschema>=4.23",
   "pyyaml>=6.0",
   "uvicorn>=0.30",
@@ -33,3 +34,5 @@ packages = ["miche"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "interfaces" = "interfaces"
+"miche/templates" = "miche/templates"
+"miche/static" = "miche/static"
