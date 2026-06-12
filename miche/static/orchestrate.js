@@ -228,6 +228,7 @@ function renderProjectCard(project) {
                 <option value="claude">Claude Code</option>
                 <option value="grok">Grok Build</option>
                 <option value="mimo">MiMo Code</option>
+                <option value="codex">Codex</option>
               </select>
             </label>
           </div>

@@ -149,6 +149,16 @@ CASSETTE_FIXTURES: dict[str, dict[str, Any]] = {
         "card_body": "Spawning a Grok Build agent via orchestration API.",
         "reply": "Creating Grok Build agent — see the status card.",
     },
+    "run codex": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "create", "cli_profile": "codex"},
+        "needs_focus": False,
+        "card_type": "agent_status",
+        "card_title": "Creating Codex agent",
+        "card_body": "Spawning a Codex agent via orchestration API.",
+        "reply": "Creating Codex agent — see the status card.",
+    },
     "list agents": {
         "app_id": "caffenagent",
         "capability": "sessions",
@@ -310,6 +320,8 @@ def _match_production(text: str) -> dict[str, Any] | None:
         return CASSETTE_FIXTURES["run claude"]
     if "run grok" in lowered and "session" not in lowered:
         return CASSETTE_FIXTURES["run grok"]
+    if "run codex" in lowered and "session" not in lowered:
+        return CASSETTE_FIXTURES["run codex"]
     if "list agents" in lowered or "what agents" in lowered:
         return CASSETTE_FIXTURES["list agents"]
     if "pause agent" in lowered:
