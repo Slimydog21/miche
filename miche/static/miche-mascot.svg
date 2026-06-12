@@ -1,6 +1,115 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Miche mascot">
-  <rect x="4" y="8" width="40" height="32" rx="8" fill="#f9bd2b" stroke="#151515" stroke-width="2"/>
-  <circle cx="18" cy="22" r="4" fill="#151515"/>
-  <circle cx="30" cy="22" r="4" fill="#151515"/>
-  <path d="M16 30 Q24 36 32 30" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Miche mascot — a squishy intelligent blob with big eyes, representing connectivity and intelligence">
+  <defs>
+    <!-- Glow effect for connection nodes -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Squishy body gradient -->
+    <radialGradient id="bodyGrad" cx="45%" cy="40%">
+      <stop offset="0%" stop-color="#ffe066"/>
+      <stop offset="60%" stop-color="#f9bd2b"/>
+      <stop offset="100%" stop-color="#e6a800"/>
+    </radialGradient>
+    <!-- Fluid highlight -->
+    <radialGradient id="highlight" cx="35%" cy="30%">
+      <stop offset="0%" stop-color="white" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Main body — amorphous blob shape (squishy, fluid) -->
+  <path d="M100 30 
+           Q140 25 155 55 
+           Q175 75 170 105 
+           Q168 135 150 155 
+           Q135 170 115 175 
+           Q100 178 85 175 
+           Q65 170 50 155 
+           Q32 135 30 105 
+           Q25 75 45 55 
+           Q60 25 100 30 Z" 
+        fill="url(#bodyGrad)" stroke="#151515" stroke-width="2.5"/>
+  
+  <!-- Fluid highlight (squishy shine) -->
+  <path d="M100 30 
+           Q140 25 155 55 
+           Q175 75 170 105 
+           Q168 135 150 155 
+           Q135 170 115 175 
+           Q100 178 85 175 
+           Q65 170 50 155 
+           Q32 135 30 105 
+           Q25 75 45 55 
+           Q60 25 100 30 Z" 
+        fill="url(#highlight)"/>
+  
+  <!-- Dripping blob tendrils (fluid connectivity) -->
+  <path d="M55 165 Q50 180 55 190 Q58 195 60 190 Q62 182 58 170" 
+        fill="#f9bd2b" stroke="#151515" stroke-width="1.5" opacity="0.8"/>
+  <path d="M140 160 Q145 175 142 185 Q140 190 137 185 Q135 178 138 165" 
+        fill="#f9bd2b" stroke="#151515" stroke-width="1.5" opacity="0.8"/>
+  
+  <!-- Connection nodes (glowing dots representing intelligence/connectivity) -->
+  <circle cx="45" cy="55" r="4" fill="#1d4aff" filter="url(#glow)" opacity="0.8"/>
+  <circle cx="155" cy="50" r="3.5" fill="#1d4aff" filter="url(#glow)" opacity="0.7"/>
+  <circle cx="35" cy="120" r="3" fill="#f54e00" filter="url(#glow)" opacity="0.6"/>
+  <circle cx="165" cy="130" r="3.5" fill="#f54e00" filter="url(#glow)" opacity="0.7"/>
+  <circle cx="100" cy="25" r="3" fill="#1d4aff" filter="url(#glow)" opacity="0.6"/>
+  
+  <!-- Connection lines (neural network style) -->
+  <line x1="45" y1="55" x2="75" y2="70" stroke="#1d4aff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="155" y1="50" x2="125" y2="65" stroke="#1d4aff" stroke-width="0.8" opacity="0.4"/>
+  <line x1="35" y1="120" x2="65" y2="110" stroke="#f54e00" stroke-width="0.8" opacity="0.3"/>
+  <line x1="165" y1="130" x2="135" y2="115" stroke="#f54e00" stroke-width="0.8" opacity="0.3"/>
+  <line x1="100" y1="25" x2="100" y2="55" stroke="#1d4aff" stroke-width="0.8" opacity="0.3"/>
+  
+  <!-- Eyes — big, expressive, intelligent -->
+  <ellipse cx="78" cy="85" rx="16" ry="18" fill="white" stroke="#151515" stroke-width="2"/>
+  <ellipse cx="122" cy="85" rx="16" ry="18" fill="white" stroke="#151515" stroke-width="2"/>
+  <!-- Pupils — looking slightly up and to the right (thinking) -->
+  <ellipse cx="82" cy="82" rx="8" ry="9" fill="#151515"/>
+  <ellipse cx="126" cy="82" rx="8" ry="9" fill="#151515"/>
+  <!-- Eye shine — multiple for intelligence sparkle -->
+  <circle cx="86" cy="78" r="3" fill="white"/>
+  <circle cx="84" cy="85" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="130" cy="78" r="3" fill="white"/>
+  <circle cx="128" cy="85" r="1.5" fill="white" opacity="0.7"/>
+  <!-- Iris detail — blue ring for intelligence -->
+  <circle cx="82" cy="82" r="5" fill="none" stroke="#1d4aff" stroke-width="0.8" opacity="0.5"/>
+  <circle cx="126" cy="82" r="5" fill="none" stroke="#1d4aff" stroke-width="0.8" opacity="0.5"/>
+  
+  <!-- Eyebrows — slightly raised (curious, intelligent expression) -->
+  <path d="M62 65 Q70 58 82 62" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+  <path d="M138 65 Q130 58 118 62" fill="none" stroke="#151515" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Nose — small, cute -->
+  <ellipse cx="100" cy="100" rx="4" ry="3" fill="#e6a800" stroke="#151515" stroke-width="1.5"/>
+  
+  <!-- Mouth — confident smile with a hint of mischief -->
+  <path d="M82 112 Q92 122 100 120 Q108 122 118 112" fill="none" stroke="#151515" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Slight smirk — one side higher -->
+  <path d="M118 112 Q122 115 120 118" fill="none" stroke="#151515" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Cheek blush -->
+  <circle cx="62" cy="105" r="10" fill="#f54e00" opacity="0.15"/>
+  <circle cx="138" cy="105" r="10" fill="#f54e00" opacity="0.15"/>
+  
+  <!-- Arms — stubby, gelatinous -->
+  <path d="M38 100 Q22 95 20 108 Q18 118 28 120 Q35 122 40 115" 
+        fill="#f9bd2b" stroke="#151515" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M162 100 Q178 95 180 108 Q182 118 172 120 Q165 122 160 115" 
+        fill="#f9bd2b" stroke="#151515" stroke-width="2" stroke-linejoin="round"/>
+  
+  <!-- Coffee mug — held in right hand (Miche persona) -->
+  <rect x="162" y="95" width="26" height="20" rx="3" fill="white" stroke="#151515" stroke-width="2"/>
+  <path d="M188 99 Q196 102 196 107 Q196 112 188 115" fill="none" stroke="#151515" stroke-width="2"/>
+  <rect x="164" y="99" width="22" height="14" rx="2" fill="#4a2c0a"/>
+  <!-- Steam — curly, playful -->
+  <path d="M170 92 Q172 85 170 78" fill="none" stroke="#151515" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M176 92 Q178 83 176 76" fill="none" stroke="#151515" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M182 92 Q184 85 182 78" fill="none" stroke="#151515" stroke-width="1.2" stroke-linecap="round" opacity="0.4"/>
+  
+  <!-- Small "M" on the mug -->
+  <text x="172" y="111" font-family="sans-serif" font-size="8" font-weight="bold" fill="#f9bd2b">M</text>
 </svg>
