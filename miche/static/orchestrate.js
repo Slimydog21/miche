@@ -26,10 +26,15 @@ function assertMountContract() {
 
 // --- Mascot state management ---
 
-const MASCOT_STATES = {
-  idle: { src: "/static/mascot/miche-mascot-idle.png", label: "Idle" },
-  working: { src: "/static/mascot/miche-mascot-working.png", label: "Working" },
-  blocked: { src: "/static/mascot/miche-mascot-blocked.png", label: "Blocked" },
+const MASCOT_COSTUMES = {
+  idle:      { src: "/static/mascot/costumes/miche-base.png",      label: "Idle" },
+  working:   { src: "/static/mascot/costumes/miche-mug.png",       label: "Working" },
+  blocked:   { src: "/static/mascot/costumes/miche-sword.png",     label: "Blocked" },
+  // Agent profile costumes (when single agent is dominant)
+  claude:    { src: "/static/mascot/costumes/miche-pencil.png",    label: "Claude Code" },
+  grok:      { src: "/static/mascot/costumes/miche-rocket.png",    label: "Grok Build" },
+  mimo:      { src: "/static/mascot/costumes/miche-telescope.png", label: "MiMo Code" },
+  codex:     { src: "/static/mascot/costumes/miche-plane.png",     label: "Codex" },
 };
 
 function updateMascotState(projects) {
@@ -40,30 +45,50 @@ function updateMascotState(projects) {
   const label = mascot.querySelector("[data-mascot-label]");
   if (!img || !label) return;
 
-  // Determine mascot state from agent statuses
-  let state = "idle";
+  // Count agents by status and profile
   let runningCount = 0;
   let blockedCount = 0;
+  let profileCounts = {};
+  let dominantProfile = null;
 
   for (const project of projects || []) {
     for (const agent of project._agents || []) {
-      if (agent.status === "running") runningCount++;
+      if (agent.status === "running") {
+        runningCount++;
+        const p = agent.cli_profile || "unknown";
+        profileCounts[p] = (profileCounts[p] || 0) + 1;
+      }
       if (agent.status === "aborted" || agent.status === "degraded") blockedCount++;
     }
   }
 
-  if (blockedCount > 0) {
-    state = "blocked";
-  } else if (runningCount > 0) {
-    state = "working";
+  // Find dominant running profile
+  let maxCount = 0;
+  for (const [profile, count] of Object.entries(profileCounts)) {
+    if (count > maxCount) { maxCount = count; dominantProfile = profile; }
   }
 
-  const config = MASCOT_STATES[state];
-  mascot.dataset.mascotState = state;
+  // Determine costume: status overrides profile
+  let costumeKey = "idle";
+  if (blockedCount > 0) {
+    costumeKey = "blocked";
+  } else if (runningCount > 0) {
+    // If all running agents are the same profile, show that profile's costume
+    if (dominantProfile && MASCOT_COSTUMES[dominantProfile] && Object.keys(profileCounts).length === 1) {
+      costumeKey = dominantProfile;
+    } else {
+      costumeKey = "working";
+    }
+  }
+
+  const config = MASCOT_COSTUMES[costumeKey] || MASCOT_COSTUMES.idle;
+  mascot.dataset.mascotState = costumeKey;
   if (img.src !== new URL(config.src, window.location.origin).href) {
     img.src = config.src;
   }
-  label.textContent = runningCount > 0 ? `${runningCount} running` : blockedCount > 0 ? `${blockedCount} blocked` : config.label;
+  label.textContent = runningCount > 0
+    ? `${runningCount} running${dominantProfile && Object.keys(profileCounts).length === 1 ? ` · ${dominantProfile}` : ""}`
+    : blockedCount > 0 ? `${blockedCount} blocked` : config.label;
 }
 
 // --- API layer ---

@@ -1,0 +1,75 @@
+# Miche mascot costumes — Ed, Edd n Eddy vertical object character
+# Each costume maps to a context/persona/agent state
+
+version: "1.0.0"
+
+character:
+  id: miche-vertical
+  style: ed_edd_n_eddy
+  description: "A walking vertical object (compute package, pencil, mug, etc.) that wears different costumes. Inspired by how objects in Ed, Edd n Eddy become characters."
+  brand_colors:
+    primary: "#f9bd2b"
+    accent: "#1d4aff"
+    highlight: "#f54e00"
+
+costumes:
+  base:
+    file: costumes/miche-base.png
+    label: "Compute Package"
+    description: "The base character — a walking circuit board box with LED lights"
+    contexts: [default, idle]
+
+  pencil:
+    file: costumes/miche-pencil.png
+    label: "Pencil"
+    description: "For writing specs, documentation, and htmlspec generation"
+    contexts: [htmlspec, docs, writing]
+    agent_profile: null
+
+  mug:
+    file: costumes/miche-mug.png
+    label: "Coffee Mug"
+    description: "The caffeinated persona — energy, focus, long sessions"
+    contexts: [engine, working, caffeinated]
+    agent_profile: null
+
+  rocket:
+    file: costumes/miche-rocket.png
+    label: "Rocket"
+    description: "For launching agents, deploying, pushing to production"
+    contexts: [launch, deploy, prcrouch]
+    agent_profile: null
+
+  sword:
+    file: costumes/miche-sword.png
+    label: "Sword"
+    description: "For cutting through bugs, debugging, and adversarial critique"
+    contexts: [debug, egghead, critique]
+    agent_profile: null
+
+  plane:
+    file: costumes/miche-plane.png
+    label: "Paper Plane"
+    description: "For flying through code, exploration, and rapid iteration"
+    contexts: [explore, navigate, fly]
+    agent_profile: null
+
+  telescope:
+    file: costumes/miche-telescope.png
+    label: "Telescope"
+    description: "For investigation, research, and discovering patterns"
+    contexts: [investigate, research, discover]
+    agent_profile: null
+
+# Agent profile → costume mapping
+agent_costumes:
+  claude: pencil      # Claude Code writes specs
+  grok: rocket        # Grok Build launches fast
+  mimo: telescope     # MiMo Code investigates deeply
+  codex: plane        # Codex flies through code
+
+# Status → costume override (takes priority over agent_costumes)
+status_costumes:
+  running: mug        # Always show coffee mug when agents are running
+  blocked: sword      # Sword when something is blocked
+  idle: base          # Default compute package
