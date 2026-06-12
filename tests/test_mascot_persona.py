@@ -17,7 +17,7 @@ from miche.mascot.assets import (
 from miche.mascot.persona import PersonaEngine, resolve_persona
 from miche.web import create_app
 
-_PINNED_HERO_SHA256 = "3b0899c33966da720b7da82b8582d6500130c4b7d2518e202b10274b2d2485d1"
+_PINNED_HERO_SHA256 = "8a6e44fcad551527afe208c993a33416b391ac38b7176330912db52c2e3adbc2"
 
 
 @pytest.fixture
