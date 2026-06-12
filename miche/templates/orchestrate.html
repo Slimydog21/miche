@@ -36,10 +36,16 @@
 
   <header class="miche-header" role="banner">
     <div class="miche-header__brand">
-      <a class="miche-header__back" href="/">← Home</a>
-      <p class="miche-header__eyebrow">Miche Platform</p>
-      <h1 class="miche-header__title">Orchestration</h1>
-      <p class="miche-header__lede">Manage CLI agents across projects. Create, monitor, and control Claude Code, Grok Build, and MiMo Code agents.</p>
+      <div class="orchestrate-mascot" data-mascot-state="idle" aria-label="Miche mascot">
+        <img src="/static/mascot/miche-mascot-idle.png" alt="Miche" class="orchestrate-mascot__img" data-mascot-img />
+        <span class="orchestrate-mascot__label" data-mascot-label>Idle</span>
+      </div>
+      <div>
+        <a class="miche-header__back" href="/">← Home</a>
+        <p class="miche-header__eyebrow">Miche Platform</p>
+        <h1 class="miche-header__title">Orchestration</h1>
+        <p class="miche-header__lede">Manage CLI agents across projects. Create, monitor, and control Claude Code, Grok Build, MiMo Code, and Codex agents.</p>
+      </div>
     </div>
     <nav class="orchestrate-nav" aria-label="Orchestration pages">
       <a class="orchestrate-nav__link orchestrate-nav__link--active" href="/orchestrate">Dashboard</a>

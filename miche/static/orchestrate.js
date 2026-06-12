@@ -24,6 +24,48 @@ function assertMountContract() {
   mount.dataset.islandReady = "shell";
 }
 
+// --- Mascot state management ---
+
+const MASCOT_STATES = {
+  idle: { src: "/static/mascot/miche-mascot-idle.png", label: "Idle" },
+  working: { src: "/static/mascot/miche-mascot-working.png", label: "Working" },
+  blocked: { src: "/static/mascot/miche-mascot-blocked.png", label: "Blocked" },
+};
+
+function updateMascotState(projects) {
+  const mascot = document.querySelector("[data-mascot-state]");
+  if (!mascot) return;
+
+  const img = mascot.querySelector("[data-mascot-img]");
+  const label = mascot.querySelector("[data-mascot-label]");
+  if (!img || !label) return;
+
+  // Determine mascot state from agent statuses
+  let state = "idle";
+  let runningCount = 0;
+  let blockedCount = 0;
+
+  for (const project of projects || []) {
+    for (const agent of project._agents || []) {
+      if (agent.status === "running") runningCount++;
+      if (agent.status === "aborted" || agent.status === "degraded") blockedCount++;
+    }
+  }
+
+  if (blockedCount > 0) {
+    state = "blocked";
+  } else if (runningCount > 0) {
+    state = "working";
+  }
+
+  const config = MASCOT_STATES[state];
+  mascot.dataset.mascotState = state;
+  if (img.src !== new URL(config.src, window.location.origin).href) {
+    img.src = config.src;
+  }
+  label.textContent = runningCount > 0 ? `${runningCount} running` : blockedCount > 0 ? `${blockedCount} blocked` : config.label;
+}
+
 // --- API layer ---
 
 async function fetchJson(path) {
@@ -360,6 +402,7 @@ async function poll() {
     const openForms = collectOpenForms();
     renderGrid(projects);
     restoreOpenForms(openForms);
+    updateMascotState(projects);
     updateConnectionStatus("ok", "Connected");
     updateLastUpdated();
     // Reset to normal polling interval after recovery from backoff
