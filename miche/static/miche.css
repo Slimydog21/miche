@@ -1,35 +1,86 @@
-/* miche.css — Lemon layout tokens + home shell (MPLAT-SPR-02) */
+/* miche.css — PostHog Lemon UI design tokens + home shell (MPLAT-SPR-02)
+ * Based on PostHog's design system: warm yellow-grey surfaces, subtle borders,
+ * orange accent, Inter font. See github.com/PostHog/posthog for the source.
+ */
 
 :root {
-  --color-primary: #1d4aff;
+  /* PostHog brand colors */
+  --color-primary: #1d4aff;        /* PostHog brand blue */
   --color-primary-dark: #1330b0;
-  --color-accent: #f9bd2b;
-  --color-accent-dark: #d99e10;
-  --color-success: #1a7f4f;
-  --color-warning: #c47a00;
-  --color-danger: #c63d24;
-  --color-black: #151515;
-  --color-ink: #2c2c2c;
-  --color-muted: #6b6b6b;
-  --color-line: #cfcfcf;
-  --color-bg: #fafaf7;
-  --color-bg-card: #ffffff;
-  --color-bg-soft: #f3f1ea;
-  --radius: 6px;
-  --radius-sm: 4px;
-  --border: 2px solid var(--color-black);
-  --border-thin: 1px solid var(--color-line);
-  --shadow-card: 4px 4px 0 0 var(--color-black);
-  --shadow-card-sm: 2px 2px 0 0 var(--color-black);
+  --color-accent: #f54e00;         /* PostHog brand orange (primary accent) */
+  --color-accent-dark: #d94300;
+  --color-accent-inverted: #f9bd2b; /* PostHog brand yellow (inverted accent) */
+
+  /* Semantic colors — PostHog palette */
+  --color-success: #388600;
+  --color-success-light: #5f9d32;
+  --color-warning: #f7a501;
+  --color-warning-dark: #e09423;
+  --color-danger: #db3707;
+  --color-danger-light: #df4b20;
+
+  /* Neutral colors — PostHog warm yellow-grey system */
+  --color-black: #111;
+  --color-ink: #111;
+  --color-text-secondary: rgb(17 17 17 / 70%);
+  --color-muted: #5f5f5f;
+  --color-muted-alt: #747ea1;
+  --color-trace: rgb(17 17 17 / 25%);
+
+  /* Surfaces — PostHog 3000 layering system */
+  --color-bg: hsl(75deg 14% 95%);           /* --color-bg-3000: warm yellow-grey */
+  --color-bg-card: #ffffff;                  /* --color-bg-surface-primary */
+  --color-bg-soft: hsl(70deg 16% 93%);      /* --color-bg-surface-secondary */
+  --color-bg-toolbar: hsl(77deg 13% 89%);   /* --color-bg-surface-tertiary */
+  --color-bg-table: #f9faf7;
+
+  /* Borders — PostHog subtle system */
+  --color-line: rgb(0 0 0 / 15%);           /* --border */
+  --color-line-light: rgb(0 0 0 / 8%);      /* --border-light */
+  --color-line-bold: rgb(0 0 0 / 24%);      /* --border-bold */
+  --color-border-3000: #dadbd2;
+
+  /* Geometry — PostHog radius scale */
+  --radius: 0.375rem;   /* 6px */
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-lg: 0.625rem; /* 10px */
+  --radius-full: 9999px;
+
+  /* Borders — PostHog style (subtle, not bold) */
+  --border: 1px solid var(--color-line);
+  --border-bold: 1px solid var(--color-line-bold);
+  --border-thin: 1px solid var(--color-line-light);
+
+  /* Shadows — PostHog elevation system */
+  --shadow-card: 0 1px 3px rgb(0 0 0 / 8%);
+  --shadow-card-sm: 0 1px 2px rgb(0 0 0 / 5%);
+  --shadow-elevation: 0 3px 0 var(--color-border-3000);
+  --shadow-modal: 0px 16px 16px -16px rgb(0 0 0 / 35%);
+
+  /* Spacing — PostHog scale */
+  --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-5: 20px;
   --spacing-6: 24px;
   --spacing-8: 32px;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Typography — PostHog font stack */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Roboto", "Helvetica Neue", helvetica, arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", "Menlo", "Consolas", "Liberation Mono", monospace;
+  --font-medium: 500;
+  --font-semibold: 600;
+
+  /* Layout */
   --home-max-width: 1280px;
   --home-gutter: var(--spacing-4);
+
+  /* Info fills */
+  --color-info-fill: #e5ecff;
+  --color-warning-fill: #fdf1cf;
+  --color-success-fill: #d9efe2;
+  --color-danger-fill: #f7d5cd;
 }
 
 *,

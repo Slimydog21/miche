@@ -1,34 +1,41 @@
-/* Orchestration dashboard — MPLAT-ORCH-SPR-02 */
+/* Orchestration dashboard — PostHog Lemon UI design language
+ * Based on PostHog's component patterns: LemonButton, LemonCard, LemonTable,
+ * LemonTag, LemonTabs, LemonInput. See github.com/PostHog/posthog.
+ */
 
-/* Navigation */
+/* Navigation — PostHog LemonTabs style */
 .orchestrate-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  padding: 8px 0;
-  margin-bottom: 8px;
+  gap: 0;
+  padding: 0;
+  margin-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .orchestrate-nav__link {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
-  background: var(--color-bg-card);
-  color: var(--color-ink);
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-muted);
   text-decoration: none;
-  transition: background 80ms ease;
+  transition: color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
 }
 
 .orchestrate-nav__link:hover {
-  background: var(--color-bg-soft);
+  color: var(--color-ink);
+  background: transparent;
 }
 
 .orchestrate-nav__link--active {
-  background: var(--color-primary);
-  color: white;
-  border-color: var(--color-primary);
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  font-weight: var(--font-semibold);
 }
 
 /* Toolbar */
@@ -36,14 +43,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 0;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--color-line);
+  padding: var(--spacing-2) 0;
+  margin-bottom: var(--spacing-4);
 }
 
 .orchestrate-toolbar__status {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--font-medium);
   color: var(--color-muted);
   margin: 0;
 }
@@ -61,7 +67,7 @@
 .orchestrate-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 16px;
+  gap: var(--spacing-4);
 }
 
 @media (max-width: 768px) {
@@ -88,12 +94,12 @@
   }
 
   .orchestrate-card {
-    padding: 12px 14px;
+    padding: var(--spacing-3);
   }
 
   .orchestrate-agent-row {
     flex-wrap: wrap;
-    gap: 4px;
+    gap: var(--spacing-1);
   }
 
   .orchestrate-agent-actions {
@@ -108,15 +114,14 @@
   .orchestrate-input,
   .orchestrate-select {
     font-size: 16px; /* Prevents iOS zoom on focus */
-    padding: 8px 10px;
+    padding: var(--spacing-2) var(--spacing-3);
   }
 
   .orchestrate-btn {
-    padding: 6px 12px;
+    padding: var(--spacing-1) var(--spacing-3);
     font-size: 13px;
   }
 
-  /* Safe area insets for notch devices */
   .orchestrate-main {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
@@ -124,26 +129,30 @@
   }
 }
 
-/* Project card */
+/* Project card — PostHog LemonCard style */
 .orchestrate-card {
-  border: 2px solid var(--color-black);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius);
   background: var(--color-bg-card);
-  box-shadow: 2px 2px 0 0 var(--color-black);
-  padding: 16px 18px;
+  padding: var(--spacing-4);
+  transition: box-shadow 120ms ease;
+}
+
+.orchestrate-card:hover {
+  box-shadow: var(--shadow-card);
 }
 
 .orchestrate-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: var(--spacing-3);
 }
 
 .orchestrate-card__title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-black);
+  font-size: 15px;
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
   margin: 0;
 }
 
@@ -153,10 +162,10 @@
 }
 
 .orchestrate-card__body {
-  min-height: 60px;
+  min-height: 48px;
 }
 
-/* Agent list within a project card */
+/* Agent list */
 .orchestrate-agent-list {
   list-style: none;
   padding: 0;
@@ -166,9 +175,9 @@
 .orchestrate-agent-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--color-line);
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) 0;
+  border-bottom: 1px solid var(--color-line-light);
   font-size: 13px;
 }
 
@@ -176,11 +185,11 @@
   border-bottom: none;
 }
 
-/* Status dots */
+/* Status dots — PostHog color system */
 .orchestrate-dot {
   width: 8px;
   height: 8px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: var(--color-muted);
   flex-shrink: 0;
 }
@@ -192,49 +201,73 @@
 .orchestrate-dot--aborted { background: var(--color-danger); }
 .orchestrate-dot--degraded { background: var(--color-warning); }
 
-/* Agent profile tag */
+/* Agent profile tag — PostHog LemonTag style */
 .orchestrate-profile {
+  display: inline-flex;
+  align-items: center;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: var(--font-semibold);
   padding: 1px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--color-line);
+  border-radius: var(--radius-full);
   background: var(--color-bg-soft);
-  color: var(--color-ink);
+  color: var(--color-text-secondary);
   white-space: nowrap;
 }
 
-/* Stale badge */
+/* Stale badge — PostHog warning fill */
 .orchestrate-stale {
+  display: inline-flex;
+  align-items: center;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: var(--font-semibold);
   padding: 1px 5px;
-  border-radius: 999px;
-  background: #fce3cd; /* light warning tint */
-  color: var(--color-warning);
+  border-radius: var(--radius-full);
+  background: var(--color-warning-fill);
+  color: var(--color-warning-dark);
 }
 
 /* Agent actions */
 .orchestrate-agent-actions {
   display: flex;
-  gap: 4px;
+  gap: var(--spacing-1);
   margin-left: auto;
 }
 
+/* Buttons — PostHog LemonButton style */
 .orchestrate-btn {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  padding: var(--spacing-1) var(--spacing-2);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-sm);
   background: var(--color-bg-card);
   color: var(--color-ink);
   cursor: pointer;
-  transition: background 80ms ease;
+  transition: background 80ms ease, border-color 80ms ease;
+  white-space: nowrap;
 }
 
 .orchestrate-btn:hover {
   background: var(--color-bg-soft);
+  border-color: var(--color-line-bold);
+}
+
+.orchestrate-btn:active {
+  background: var(--color-bg-toolbar);
+}
+
+.orchestrate-btn--primary {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.orchestrate-btn--primary:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
 }
 
 .orchestrate-btn--danger {
@@ -242,117 +275,128 @@
   border-color: var(--color-danger);
 }
 
+.orchestrate-btn--danger:hover {
+  background: var(--color-danger-fill);
+}
+
 .orchestrate-btn:disabled {
-  opacity: 0.5;
+  opacity: 0.65;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* Empty state */
 .orchestrate-empty {
   grid-column: 1 / -1;
   text-align: center;
-  padding: 40px 20px;
+  padding: var(--spacing-8) var(--spacing-4);
   color: var(--color-muted);
   font-size: 14px;
 }
 
-/* Attach hints panel */
+/* Attach hints panel — monospace code block */
 .orchestrate-hints {
-  margin-top: 8px;
-  padding: 8px 10px;
+  margin-top: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
   background: var(--color-bg-soft);
   border-radius: var(--radius-sm);
-  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--color-ink);
   white-space: pre-wrap;
   word-break: break-all;
 }
 
-/* Connection status banner */
+/* Connection status banner — PostHog LemonBanner style */
 .orchestrate-banner {
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  border-radius: var(--radius-sm);
+  padding: var(--spacing-2) var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+  border-radius: var(--radius);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--font-medium);
+  border: 1px solid;
 }
 
 .orchestrate-banner--error {
-  background: #f7d5cd; /* light danger tint */
+  background: var(--color-danger-fill);
   color: var(--color-danger);
-  border: 1px solid var(--color-danger);
+  border-color: var(--color-danger);
 }
 
 .orchestrate-banner--ok {
-  background: #d9efe2; /* light success tint */
+  background: var(--color-success-fill);
   color: var(--color-success);
-  border: 1px solid var(--color-success);
+  border-color: var(--color-success);
 }
 
 /* Create agent form */
 .orchestrate-card__footer {
-  margin-top: 12px;
-  padding-top: 10px;
-  border-top: 1px solid var(--color-line);
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-line-light);
 }
 
 .orchestrate-create-form {
-  margin-top: 8px;
+  margin-top: var(--spacing-2);
 }
 
 .orchestrate-form-row {
-  margin-bottom: 8px;
+  margin-bottom: var(--spacing-2);
 }
 
 .orchestrate-form-row label {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-1);
 }
 
+/* Inputs — PostHog LemonInput style */
 .orchestrate-input,
 .orchestrate-select {
   display: block;
   width: 100%;
-  margin-top: 3px;
-  padding: 6px 8px;
+  padding: var(--spacing-1) var(--spacing-2);
   font-size: 13px;
   border: 1px solid var(--color-line);
   border-radius: var(--radius-sm);
-  background: var(--color-bg-card);
+  background: var(--color-bg-fill-input);
   color: var(--color-ink);
   font-family: inherit;
+  transition: border-color 120ms ease;
 }
 
 .orchestrate-input:focus,
 .orchestrate-select:focus {
-  outline: 2px solid var(--color-primary);
-  outline-offset: -1px;
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-info-fill);
+}
+
+.orchestrate-input::placeholder {
+  color: var(--color-muted);
 }
 
 .orchestrate-form-actions {
   display: flex;
-  gap: 6px;
-  margin-top: 10px;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-3);
 }
 
 .orchestrate-form-error {
-  margin-top: 6px;
+  margin-top: var(--spacing-1);
   font-size: 12px;
   color: var(--color-danger);
-  font-weight: 600;
+  font-weight: var(--font-medium);
 }
 
 /* Autonomous loop status */
 .orchestrate-loop-status {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 0 4px 16px;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) 0 var(--spacing-1) var(--spacing-4);
   font-size: 12px;
   color: var(--color-muted);
 }
@@ -360,7 +404,7 @@
 .orchestrate-loop-dot {
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: var(--color-muted);
 }
 
