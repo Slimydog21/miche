@@ -118,6 +118,78 @@ CASSETTE_FIXTURES: dict[str, dict[str, Any]] = {
         "card_type": None,
         "reply": "Too vague for Focus — tell me studio, htmlspec, or sessions explicitly.",
     },
+    # MPLAT-ORCH-SPR-04: Agent orchestration voice commands
+    "run mimo": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "create", "cli_profile": "mimo"},
+        "needs_focus": False,
+        "card_type": "agent_status",
+        "card_title": "Creating MiMo Code agent",
+        "card_body": "Spawning a MiMo Code agent via orchestration API.",
+        "reply": "Creating MiMo Code agent — see the status card.",
+    },
+    "run claude": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "create", "cli_profile": "claude"},
+        "needs_focus": False,
+        "card_type": "agent_status",
+        "card_title": "Creating Claude Code agent",
+        "card_body": "Spawning a Claude Code agent via orchestration API.",
+        "reply": "Creating Claude Code agent — see the status card.",
+    },
+    "run grok": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "create", "cli_profile": "grok"},
+        "needs_focus": False,
+        "card_type": "agent_status",
+        "card_title": "Creating Grok Build agent",
+        "card_body": "Spawning a Grok Build agent via orchestration API.",
+        "reply": "Creating Grok Build agent — see the status card.",
+    },
+    "list agents": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "list"},
+        "needs_focus": False,
+        "card_type": "agent_roster",
+        "card_title": "Agent roster",
+        "card_body": "Listing all active agents across projects.",
+        "reply": "Here are your active agents.",
+    },
+    "what agents": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "list"},
+        "needs_focus": False,
+        "card_type": "agent_roster",
+        "card_title": "Agent roster",
+        "card_body": "Listing all active agents across projects.",
+        "reply": "Here are your active agents.",
+    },
+    "pause agent": {
+        "app_id": "caffenagent",
+        "capability": "sessions",
+        "args": {"agent_action": "pause"},
+        "needs_focus": False,
+        "card_type": "agent_status",
+        "card_title": "Pausing agent",
+        "card_body": "Sending pause command to agent.",
+        "reply": "Agent pause requested — see the status card.",
+    },
+    "orchestrate": {
+        "app_id": "caffenagent",
+        "capability": "studio",
+        "args": {},
+        "needs_focus": False,
+        "card_type": "focus_cta",
+        "card_title": "Open Orchestration Dashboard",
+        "card_body": "Manage agents from the orchestration dashboard.",
+        "reply": "Open the orchestration dashboard to manage agents.",
+        "focus_route": "/orchestrate",
+    },
 }
 
 
@@ -230,6 +302,21 @@ def _match_cassette(text: str) -> dict[str, Any] | None:
 def _match_production(text: str) -> dict[str, Any] | None:
     """Registry-constrained classifier (non-cassette production path)."""
     lowered = text.lower()
+    # MPLAT-ORCH-SPR-04: Agent orchestration commands (check first — high specificity)
+    # Guard against compound utterances like "run mimo on miche studio sessions"
+    if "run mimo" in lowered and "session" not in lowered:
+        return CASSETTE_FIXTURES["run mimo"]
+    if "run claude" in lowered and "session" not in lowered:
+        return CASSETTE_FIXTURES["run claude"]
+    if "run grok" in lowered and "session" not in lowered:
+        return CASSETTE_FIXTURES["run grok"]
+    if "list agents" in lowered or "what agents" in lowered:
+        return CASSETTE_FIXTURES["list agents"]
+    if "pause agent" in lowered:
+        return CASSETTE_FIXTURES["pause agent"]
+    if "orchestrate" in lowered:
+        return CASSETTE_FIXTURES["orchestrate"]
+    # Original fixtures
     if "studio" in lowered and "open" in lowered:
         return CASSETTE_FIXTURES["open studio"]
     if "stale" in lowered and "session" in lowered:

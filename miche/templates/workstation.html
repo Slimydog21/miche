@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <title>Miche — Workstation</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <link rel="stylesheet" href="/static/workstation.css" />
+  <link rel="stylesheet" href="/static/island.css" />
+  <script type="module" src="/static/workstation.js" defer></script>
+</head>
+<body class="miche-workstation" data-layout-version="{{ layout_version }}" data-install-profile="{{ profile_id }}">
+  <a class="skip-link" href="#miche-main">Skip to panes</a>
+
+  {% if registry_error %}
+  <div class="miche-banner miche-banner--warning" role="alert">
+    <p>App registry unavailable — workstation is degraded. Fix <code>interfaces/miche_app_registry.yaml</code>: {{ registry_error }}</p>
+  </div>
+  {% endif %}
+
+  <header class="miche-header" role="banner">
+    <div class="miche-header__brand">
+      <a class="miche-header__back" href="/orchestrate">← Orchestration</a>
+      <p class="miche-header__eyebrow">Miche Platform</p>
+      <h1 class="miche-header__title">Workstation</h1>
+      <p class="miche-header__lede">Inspect PTY pane bindings and live output from caffenagent workstations.</p>
+    </div>
+    {% if app_chips %}
+    <nav class="miche-header__chips" aria-label="Open app in Focus">
+      {% for chip in app_chips %}
+      <a
+        class="miche-chip"
+        href="{{ chip.href }}"
+        data-app-id="{{ chip.id }}"
+        data-focus-route="{{ chip.focus_route }}"
+      >{{ chip.display_name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+
+  <main id="miche-main" class="ws-main" role="main">
+    <div class="ws-toolbar">
+      <p class="ws-toolbar__status" data-connection-status>Connecting…</p>
+      <button class="ws-toolbar__refresh" data-action="refresh-bindings" type="button">Refresh panes</button>
+    </div>
+
+    <div class="ws-layout">
+      <aside class="ws-pane-list" data-pane-list>
+        <p class="ws-empty">Loading panes…</p>
+      </aside>
+      <section class="ws-output" data-output-area>
+        <p class="ws-empty">Select a pane to view its output.</p>
+      </section>
+    </div>
+  </main>
+
+  <div id="miche-island-mount" class="miche-island-mount" data-island-ready="false" aria-label="Floating island mount"></div>
+</body>
+</html>

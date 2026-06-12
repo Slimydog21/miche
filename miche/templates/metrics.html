@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <title>Miche — Agent Metrics</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <link rel="stylesheet" href="/static/metrics.css" />
+  <link rel="stylesheet" href="/static/island.css" />
+  <script type="module" src="/static/metrics.js" defer></script>
+</head>
+<body class="miche-orchestrate" data-layout-version="{{ layout_version }}" data-install-profile="{{ profile_id }}">
+  <a class="skip-link" href="#miche-main">Skip to metrics</a>
+
+  {% if registry_error %}
+  <div class="miche-banner miche-banner--warning" role="alert">
+    <p>App registry unavailable — metrics are degraded. Fix <code>interfaces/miche_app_registry.yaml</code>: {{ registry_error }}</p>
+  </div>
+  {% endif %}
+
+  <header class="miche-header" role="banner">
+    <div class="miche-header__brand">
+      <a class="miche-header__back" href="/orchestrate">← Orchestration</a>
+      <p class="miche-header__eyebrow">Miche Platform</p>
+      <h1 class="miche-header__title">Agent Metrics</h1>
+      <p class="miche-header__lede">Performance overview of CLI agents across all projects.</p>
+    </div>
+    {% if app_chips %}
+    <nav class="miche-header__chips" aria-label="Open app in Focus">
+      {% for chip in app_chips %}
+      <a
+        class="miche-chip"
+        href="{{ chip.href }}"
+        data-app-id="{{ chip.id }}"
+        data-focus-route="{{ chip.focus_route }}"
+      >{{ chip.display_name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+
+  <main id="miche-main" class="metrics-main" role="main">
+    <div class="metrics-toolbar">
+      <p class="metrics-toolbar__status" data-connection-status>Connecting…</p>
+      <p class="metrics-toolbar__updated" data-last-updated></p>
+    </div>
+
+    <div class="metrics-cards" data-metrics-cards>
+      <p class="metrics-loading">Loading agent data…</p>
+    </div>
+
+    <div class="metrics-table-section" data-metrics-table>
+    </div>
+  </main>
+
+  <div id="miche-island-mount" class="miche-island-mount" data-island-ready="false" aria-label="Floating island mount"></div>
+</body>
+</html>

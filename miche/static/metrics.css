@@ -1,0 +1,158 @@
+/* Agent Metrics */
+
+.metrics-main {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: 0 var(--home-gutter) var(--spacing-8);
+}
+
+/* Toolbar */
+.metrics-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.metrics-toolbar__status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.metrics-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.metrics-toolbar__status[data-state="error"] { color: var(--color-danger); }
+
+.metrics-toolbar__updated {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Summary cards */
+.metrics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.metrics-card {
+  background: var(--color-bg-card);
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.metrics-card__label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  margin: 0 0 4px;
+}
+
+.metrics-card__value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-ink);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.metrics-card__sub {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 4px 0 0;
+}
+
+/* Table section */
+.metrics-table-section {
+  margin-top: 8px;
+}
+
+.metrics-table-wrap {
+  overflow-x: auto;
+}
+
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.metrics-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--color-black);
+  white-space: nowrap;
+}
+
+.metrics-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-ink);
+  vertical-align: top;
+}
+
+.metrics-table tr:hover td {
+  background: var(--color-bg-soft);
+}
+
+/* Status badge */
+.metrics-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.metrics-status--running { background: #d9efe2; color: var(--color-success); }
+.metrics-status--done { background: #d5ddf7; color: var(--color-primary); }
+.metrics-status--aborted { background: #f7d5cd; color: var(--color-danger); }
+.metrics-status--idle { background: var(--color-bg-soft); color: var(--color-muted); }
+
+/* Agent ID */
+.metrics-agent-id {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Profile tag */
+.metrics-profile {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-soft);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* Empty / Loading */
+.metrics-empty,
+.metrics-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-muted);
+  font-size: 14px;
+}

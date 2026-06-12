@@ -1,0 +1,151 @@
+/* Settings page — read-only configuration viewer */
+
+.settings-main {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: 0 var(--home-gutter) var(--spacing-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.settings-section {
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  box-shadow: 2px 2px 0 0 var(--color-black);
+  padding: 16px 18px;
+}
+
+.settings-section__title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-black);
+}
+
+.settings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 13px;
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.settings-row__label {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.settings-row__value {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+/* Status badges */
+.settings-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.settings-badge--ok {
+  background: #d9efe2;
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+.settings-badge--fail {
+  background: #f7d5cd;
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+}
+
+/* App list */
+.settings-app-header {
+  display: grid;
+  grid-template-columns: 1fr 120px 70px 90px 60px;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 2px solid var(--color-black);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+
+.settings-app-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 70px 90px 60px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 13px;
+}
+
+.settings-app-row:last-child {
+  border-bottom: none;
+}
+
+.settings-app-row__name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.settings-app-row__id {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.settings-app-row__enabled {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-success);
+}
+
+.settings-app-row__enabled.muted {
+  color: var(--color-muted);
+}
+
+.settings-app-row__url {
+  text-align: center;
+}
+
+.settings-app-row__caps {
+  font-size: 12px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+/* Empty / loading states */
+.settings-loading,
+.settings-empty {
+  color: var(--color-muted);
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+@media (max-width: 640px) {
+  .settings-app-header,
+  .settings-app-row {
+    grid-template-columns: 1fr 90px 60px 70px 50px;
+    font-size: 12px;
+  }
+}

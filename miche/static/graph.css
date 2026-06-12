@@ -1,0 +1,62 @@
+/* Execution graph viewer */
+
+/* Toolbar */
+.graph-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; margin-bottom: 16px; border-bottom: 1px solid var(--color-line); }
+.graph-toolbar__status { font-size: 13px; font-weight: 600; color: var(--color-muted); margin: 0; }
+.graph-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.graph-toolbar__status[data-state="error"] { color: var(--color-danger); }
+.graph-toolbar__status[data-state="loading"] { color: var(--color-muted); }
+.graph-toolbar__refresh { font-size: 12px; font-weight: 600; padding: 4px 12px; border: 1px solid var(--color-line); border-radius: var(--radius-sm); background: var(--color-bg-card); color: var(--color-ink); cursor: pointer; transition: background 80ms ease; }
+.graph-toolbar__refresh:hover { background: var(--color-bg-soft); }
+
+/* Callouts — warnings and overlaps */
+.graph-warnings, .graph-overlaps { margin-bottom: 12px; }
+.graph-callout { padding: 8px 12px; margin-bottom: 6px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; }
+.graph-callout--warning { background: #fce3cd; color: var(--color-warning); border: 1px solid var(--color-warning); }
+.graph-callout--overlap { background: #f7d5cd; color: var(--color-danger); border: 1px solid var(--color-danger); }
+
+/* Timeline */
+.graph-timeline { position: relative; padding-left: 28px; }
+.graph-timeline::before { content: ""; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--color-line); }
+
+/* Node row */
+.graph-node { position: relative; display: flex; align-items: flex-start; gap: 0; margin-bottom: 12px; }
+.graph-node__marker { position: absolute; left: -28px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--color-muted); border: 2px solid var(--color-bg-card); z-index: 1; flex-shrink: 0; }
+.graph-node__body { flex: 1; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-bg-card); box-shadow: 1px 1px 0 0 var(--color-line); padding: 10px 14px; }
+
+/* Status colors on markers */
+.graph-node__status--running { background: var(--color-success); }
+.graph-node__status--done { background: var(--color-primary); }
+.graph-node__status--completed { background: var(--color-primary); }
+.graph-node__status--failed { background: var(--color-danger); }
+.graph-node__status--error { background: var(--color-danger); }
+.graph-node__status--pending { background: var(--color-muted); }
+.graph-node__status--active { background: var(--color-success); }
+.graph-node__status--warning { background: var(--color-warning); }
+
+/* Status badge in body */
+.graph-node__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.graph-node__phase { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); }
+.graph-node__status { font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 999px; background: var(--color-bg-soft); color: var(--color-muted); text-transform: capitalize; }
+.graph-node__status--running { background: #d9efe2; color: var(--color-success); }
+.graph-node__status--done, .graph-node__status--completed { background: #dde5f7; color: var(--color-primary); }
+.graph-node__status--failed, .graph-node__status--error { background: #f7d5cd; color: var(--color-danger); }
+.graph-node__status--pending { background: var(--color-bg-soft); color: var(--color-muted); }
+.graph-node__status--active { background: #d9efe2; color: var(--color-success); }
+.graph-node__status--warning { background: #fce3cd; color: var(--color-warning); }
+
+.graph-node__title { font-size: 14px; font-weight: 600; color: var(--color-ink); margin: 0 0 4px; }
+.graph-node__meta { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--color-muted); margin: 0; }
+.graph-node__meta code { font-size: 11px; background: var(--color-bg-soft); padding: 1px 4px; border-radius: 3px; }
+.graph-node__files { font-size: 11px; color: var(--color-muted); }
+
+/* Empty state */
+.graph-empty { grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--color-muted); font-size: 14px; }
+.graph-empty--error { color: var(--color-danger); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .graph-timeline { padding-left: 20px; }
+  .graph-timeline::before { left: 6px; }
+  .graph-node__marker { left: -20px; width: 10px; height: 10px; }
+}

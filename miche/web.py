@@ -15,6 +15,9 @@ from .routes.island import register_routes as register_island_routes
 from .routes.focus import register_routes as register_focus_routes
 from .routes.router import register_routes as register_router_routes
 from .routes.persona import register_routes as register_persona_routes
+from .routes.proxy import register_routes as register_proxy_routes
+from .routes.orchestrate import register_routes as register_orchestrate_routes
+from .routes.gaps import register_routes as register_gaps_routes
 from .registry import load_registry
 
 _STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -35,8 +38,11 @@ def create_app() -> FastAPI:
     register_persona_routes(app)
     register_focus_routes(app)
     register_home_routes(app)
+    register_orchestrate_routes(app)
+    register_gaps_routes(app)
     if _STATIC_DIR.is_dir():
         app.mount("/static", StaticFiles(directory=str(_STATIC_DIR)), name="static")
+    register_proxy_routes(app)
     return app
 
 

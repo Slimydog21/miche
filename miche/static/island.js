@@ -56,6 +56,39 @@ function renderInlineCard(card) {
   const body = escapeHtml(card.body || "");
   const app = escapeHtml(card.source_app_id || "");
   let cta = "";
+
+  // MPLAT-ORCH-SPR-04: Agent orchestration card types
+  if (card.type === "agent_status") {
+    const profile = escapeHtml(card.agent_profile || "unknown");
+    const status = escapeHtml(card.agent_status || "created");
+    const agentId = escapeHtml(card.agent_id || "");
+    return `<div class="miche-island__card miche-island__inline-card miche-island__card--agent_status" data-card-type="agent_status">
+      <span class="miche-island__card-type">agent · ${app}</span>
+      <strong>${title}</strong>
+      <p><span class="miche-island__agent-dot miche-island__agent-dot--${status}"></span> ${profile} agent — ${status}</p>
+      ${agentId ? `<p class="muted">${agentId}</p>` : ""}
+      <a class="miche-island__focus-cta" href="/orchestrate">Open Dashboard</a>
+    </div>`;
+  }
+  if (card.type === "agent_roster") {
+    const agents = card.agents || [];
+    const rows = agents.slice(0, 5).map((a) => {
+      const s = escapeHtml(a.status || "?");
+      const p = escapeHtml(a.cli_profile || "?");
+      const sub = escapeHtml(a.subproject_path || "/");
+      return `<div class="miche-island__agent-row"><span class="miche-island__agent-dot miche-island__agent-dot--${s}"></span> ${p} · ${sub} · ${s}</div>`;
+    }).join("");
+    const extra = agents.length > 5 ? `<p class="muted">+${agents.length - 5} more</p>` : "";
+    return `<div class="miche-island__card miche-island__inline-card miche-island__card--agent_roster" data-card-type="agent_roster">
+      <span class="miche-island__card-type">agents · ${app}</span>
+      <strong>${title}</strong>
+      ${rows || "<p>No active agents.</p>"}
+      ${extra}
+      <a class="miche-island__focus-cta" href="/orchestrate">Open Dashboard</a>
+    </div>`;
+  }
+
+  // Original card types
   if (card.type === "focus_cta" && card.focus_route) {
     const appId = card.source_app_id || "caffenagent";
     const expanded = sessionStorage.getItem(STORAGE_KEY) === "true";

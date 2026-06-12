@@ -1,0 +1,33 @@
+/* Voice cascade viewer */
+
+/* Input form */
+.voice-input { margin-bottom: 24px; }
+.voice-form__label { display: block; font-size: 13px; font-weight: 600; color: var(--color-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.voice-form__textarea { width: 100%; font-size: 14px; font-family: inherit; padding: 10px 12px; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-bg-card); color: var(--color-ink); resize: vertical; }
+.voice-form__textarea:focus { outline: 2px solid var(--color-primary); outline-offset: -1px; }
+.voice-form__actions { margin-top: 8px; }
+.voice-form__submit { font-size: 13px; font-weight: 600; padding: 6px 20px; border: 1px solid var(--color-primary); border-radius: var(--radius-sm); background: var(--color-primary); color: #fff; cursor: pointer; transition: opacity 80ms ease; }
+.voice-form__submit:hover { opacity: 0.85; }
+.voice-form__submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Results area */
+.voice-results { margin-top: 24px; }
+.voice-status { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-bg-card); }
+.voice-status__label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-muted); margin: 0; }
+.voice-status__value { font-size: 12px; background: var(--color-bg-soft); padding: 2px 6px; border-radius: 3px; }
+.voice-status__badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--color-bg-soft); color: var(--color-muted); text-transform: capitalize; }
+.voice-status__badge--running { background: #d9efe2; color: var(--color-success); }
+.voice-status__badge--started { background: #d9efe2; color: var(--color-success); }
+.voice-status__badge--done, .voice-status__badge--completed { background: #dde5f7; color: var(--color-primary); }
+.voice-status__badge--failed, .voice-status__badge--error { background: #f7d5cd; color: var(--color-danger); }
+.voice-status__check { font-size: 12px; font-weight: 600; padding: 4px 12px; border: 1px solid var(--color-line); border-radius: var(--radius-sm); background: var(--color-bg-card); color: var(--color-ink); cursor: pointer; transition: background 80ms ease; margin-left: auto; }
+.voice-status__check:hover { background: var(--color-bg-soft); }
+
+/* Intents */
+.voice-intents { margin-top: 16px; }
+.voice-intents__empty { color: var(--color-muted); font-size: 14px; text-align: center; padding: 24px 0; }
+.voice-intent { border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-bg-card); margin-bottom: 8px; overflow: hidden; }
+.voice-intent__header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; }
+.voice-intent__name { font-size: 14px; font-weight: 600; color: var(--color-ink); }
+.voice-intent__conf { font-size: 12px; font-weight: 600; color: var(--color-muted); }
+.voice-intent__raw { font-size: 12px; font-family: monospace; background: var(--color-bg-soft); color: var(--color-muted); margin: 0; padding: 10px 14px; border-top: 1px solid var(--color-line); overflow-x: auto; white-space: pre-wrap; word-break: break-word; }

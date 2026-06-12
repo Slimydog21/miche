@@ -1,0 +1,201 @@
+/* Session Studio */
+
+.studio-main {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: 0 var(--home-gutter) var(--spacing-8);
+}
+
+/* Toolbar */
+.studio-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.studio-toolbar__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studio-toolbar__right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.studio-toolbar__counts {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.studio-toolbar__status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.studio-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.studio-toolbar__status[data-state="error"] { color: var(--color-danger); }
+
+.studio-toolbar__updated {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Project selector */
+.studio-select {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-ink);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.studio-select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+/* Sort toggle */
+.studio-sort {
+  display: flex;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.studio-sort-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: none;
+  border-right: 1px solid var(--color-line);
+  background: var(--color-bg-card);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: background 80ms ease, color 80ms ease;
+}
+
+.studio-sort-btn:last-child {
+  border-right: none;
+}
+
+.studio-sort-btn:hover {
+  background: var(--color-bg-soft);
+}
+
+.studio-sort-btn--active {
+  background: var(--color-black);
+  color: #fff;
+}
+
+/* Session table */
+.studio-table-wrap {
+  overflow-x: auto;
+}
+
+.studio-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.studio-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--color-black);
+  white-space: nowrap;
+}
+
+.studio-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--color-line);
+  color: var(--color-ink);
+  vertical-align: top;
+}
+
+.studio-table tr:hover td {
+  background: var(--color-bg-soft);
+}
+
+/* Status badge */
+.studio-status {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.studio-status--active { background: #d9efe2; color: var(--color-success); }
+.studio-status--idle { background: var(--color-bg-soft); color: var(--color-muted); }
+.studio-status--done { background: #d5ddf7; color: var(--color-primary); }
+.studio-status--error { background: #f7d5cd; color: var(--color-danger); }
+
+/* Session ID */
+.studio-session-id {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  color: var(--color-muted);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Subproject group header */
+.studio-group-header {
+  padding: 10px 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-ink);
+  border-bottom: 2px solid var(--color-black);
+}
+
+/* Source tag */
+.studio-source {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-soft);
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* Empty state */
+.studio-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+/* Loading */
+.studio-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--color-muted);
+  font-size: 14px;
+}

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <title>Miche — Session Studio</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <link rel="stylesheet" href="/static/studio.css" />
+  <link rel="stylesheet" href="/static/island.css" />
+  <script type="module" src="/static/studio.js" defer></script>
+</head>
+<body class="miche-orchestrate" data-layout-version="{{ layout_version }}" data-install-profile="{{ profile_id }}">
+  <a class="skip-link" href="#miche-main">Skip to sessions</a>
+
+  {% if registry_error %}
+  <div class="miche-banner miche-banner--warning" role="alert">
+    <p>App registry unavailable — studio is degraded. Fix <code>interfaces/miche_app_registry.yaml</code>: {{ registry_error }}</p>
+  </div>
+  {% endif %}
+
+  <header class="miche-header" role="banner">
+    <div class="miche-header__brand">
+      <a class="miche-header__back" href="/orchestrate">← Orchestration</a>
+      <p class="miche-header__eyebrow">Miche Platform</p>
+      <h1 class="miche-header__title">Session Studio</h1>
+      <p class="miche-header__lede">Browse and inspect sessions across projects.</p>
+    </div>
+    {% if app_chips %}
+    <nav class="miche-header__chips" aria-label="Open app in Focus">
+      {% for chip in app_chips %}
+      <a
+        class="miche-chip"
+        href="{{ chip.href }}"
+        data-app-id="{{ chip.id }}"
+        data-focus-route="{{ chip.focus_route }}"
+      >{{ chip.display_name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+
+  <main id="miche-main" class="studio-main" role="main">
+    <div class="studio-toolbar">
+      <div class="studio-toolbar__left">
+        <select class="studio-select" data-project-select aria-label="Select project">
+          <option value="">Select a project…</option>
+        </select>
+        <span class="studio-toolbar__counts" data-session-counts></span>
+      </div>
+      <div class="studio-toolbar__right">
+        <div class="studio-sort" role="group" aria-label="Sort mode">
+          <button class="studio-sort-btn studio-sort-btn--active" data-sort="flat">Flat</button>
+          <button class="studio-sort-btn" data-sort="subproject">Subproject</button>
+          <button class="studio-sort-btn" data-sort="theme">Theme</button>
+        </div>
+        <p class="studio-toolbar__status" data-connection-status>Connecting…</p>
+        <p class="studio-toolbar__updated" data-last-updated></p>
+      </div>
+    </div>
+
+    <div class="studio-content" data-session-content>
+      <p class="studio-empty">Select a project to view sessions.</p>
+    </div>
+  </main>
+
+  <div id="miche-island-mount" class="miche-island-mount" data-island-ready="false" aria-label="Floating island mount"></div>
+</body>
+</html>

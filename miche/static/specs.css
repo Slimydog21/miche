@@ -1,0 +1,40 @@
+/* Specs browser */
+
+/* Toolbar */
+.specs-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; margin-bottom: 16px; border-bottom: 1px solid var(--color-line); }
+.specs-toolbar__status { font-size: 13px; font-weight: 600; color: var(--color-muted); margin: 0; }
+.specs-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.specs-toolbar__status[data-state="error"] { color: var(--color-danger); }
+.specs-toolbar__status[data-state="loading"] { color: var(--color-muted); }
+.specs-toolbar__refresh { font-size: 12px; font-weight: 600; padding: 4px 12px; border: 1px solid var(--color-line); border-radius: var(--radius-sm); background: var(--color-bg-card); color: var(--color-ink); cursor: pointer; transition: background 80ms ease; }
+.specs-toolbar__refresh:hover { background: var(--color-bg-soft); }
+
+/* Spec cards */
+.specs-list { display: flex; flex-direction: column; gap: 10px; }
+
+.spec-card { border: 1px solid var(--color-line); border-radius: var(--radius); background: var(--color-bg-card); box-shadow: 1px 1px 0 0 var(--color-line); padding: 14px 18px; }
+.spec-card__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.spec-card__title { font-size: 15px; font-weight: 600; color: var(--color-ink); margin: 0; }
+.spec-card__status { font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 999px; background: var(--color-bg-soft); color: var(--color-muted); text-transform: capitalize; }
+.spec-card__status--draft { background: var(--color-bg-soft); color: var(--color-muted); }
+.spec-card__status--active { background: #d9efe2; color: var(--color-success); }
+.spec-card__status--complete { background: #dde5f7; color: var(--color-primary); }
+.spec-card__status--done { background: #dde5f7; color: var(--color-primary); }
+.spec-card__status--failed { background: #f7d5cd; color: var(--color-danger); }
+.spec-card__meta { font-size: 12px; color: var(--color-muted); margin: 0; }
+.spec-card__meta code { font-size: 11px; background: var(--color-bg-soft); padding: 1px 4px; border-radius: 3px; }
+
+/* Placeholder */
+.specs-placeholder { text-align: center; padding: 48px 20px; color: var(--color-muted); font-size: 14px; max-width: 420px; margin: 0 auto; }
+.specs-placeholder__icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.specs-placeholder__title { font-size: 16px; font-weight: 600; color: var(--color-ink); margin: 0 0 6px; }
+.specs-placeholder__body { margin: 0; line-height: 1.5; }
+
+/* Empty state */
+.specs-empty { text-align: center; padding: 40px 20px; color: var(--color-muted); font-size: 14px; }
+.specs-empty--error { color: var(--color-danger); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .spec-card { padding: 10px 14px; }
+}

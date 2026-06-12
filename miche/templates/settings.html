@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <title>Miche — Settings</title>
+  <link rel="stylesheet" href="/static/miche.css" />
+  <link rel="stylesheet" href="/static/orchestrate.css" />
+  <link rel="stylesheet" href="/static/settings.css" />
+  <link rel="stylesheet" href="/static/island.css" />
+  <script type="module" src="/static/settings.js" defer></script>
+</head>
+<body class="miche-orchestrate" data-layout-version="{{ layout_version }}" data-install-profile="{{ profile_id }}">
+  <a class="skip-link" href="#miche-main">Skip to settings</a>
+
+  {% if registry_error %}
+  <div class="miche-banner miche-banner--warning" role="alert">
+    <p>App registry unavailable — settings may be incomplete. Fix <code>interfaces/miche_app_registry.yaml</code>: {{ registry_error }}</p>
+  </div>
+  {% endif %}
+
+  <header class="miche-header" role="banner">
+    <div class="miche-header__brand">
+      <a class="miche-header__back" href="/orchestrate">← Orchestrate</a>
+      <p class="miche-header__eyebrow">Miche Platform</p>
+      <h1 class="miche-header__title">Settings</h1>
+      <p class="miche-header__lede">Read-only view of current configuration state.</p>
+    </div>
+    {% if app_chips %}
+    <nav class="miche-header__chips" aria-label="Open app in Focus">
+      {% for chip in app_chips %}
+      <a
+        class="miche-chip"
+        href="{{ chip.href }}"
+        data-app-id="{{ chip.id }}"
+        data-focus-route="{{ chip.focus_route }}"
+      >{{ chip.display_name }}</a>
+      {% endfor %}
+    </nav>
+    {% endif %}
+  </header>
+
+  <main id="miche-main" class="settings-main" role="main">
+    <section class="settings-section" aria-label="Service status">
+      <h2 class="settings-section__title">Service Status</h2>
+      <div class="settings-grid" data-service-status>
+        <p class="settings-loading">Loading…</p>
+      </div>
+    </section>
+
+    <section class="settings-section" aria-label="Environment">
+      <h2 class="settings-section__title">Environment</h2>
+      <div class="settings-grid" data-env-status>
+        <p class="settings-loading">Loading…</p>
+      </div>
+    </section>
+
+    <section class="settings-section" aria-label="Registered apps">
+      <h2 class="settings-section__title">Registered Apps</h2>
+      <div data-apps-list>
+        <p class="settings-loading">Loading…</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="miche-island-mount" class="miche-island-mount" data-island-ready="false" aria-label="Floating island mount"></div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+/* Workstation pane viewer */
+
+.ws-main {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: 0 var(--home-gutter) var(--spacing-8);
+}
+
+/* Toolbar */
+.ws-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.ws-toolbar__status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.ws-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.ws-toolbar__status[data-state="error"] { color: var(--color-danger); }
+
+.ws-toolbar__refresh {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 80ms ease;
+}
+
+.ws-toolbar__refresh:hover {
+  background: var(--color-bg-soft);
+}
+
+/* Layout: sidebar + output */
+.ws-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  min-height: 60vh;
+}
+
+@media (max-width: 800px) {
+  .ws-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Pane list sidebar */
+.ws-pane-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-right: 1px solid var(--color-line);
+  padding-right: 16px;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* Pane item */
+.ws-pane-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--color-ink);
+  transition: background 80ms ease, border-color 80ms ease;
+}
+
+.ws-pane-item:hover {
+  background: var(--color-bg-soft);
+  border-color: var(--color-black);
+}
+
+.ws-pane-item--active {
+  background: var(--color-bg-soft);
+  border-color: var(--color-black);
+  border-width: 2px;
+}
+
+.ws-pane-item__id {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-ink);
+  grid-column: 1;
+}
+
+.ws-pane-item__session {
+  font-size: 11px;
+  color: var(--color-muted);
+  grid-column: 1;
+}
+
+.ws-pane-item__profile {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+}
+
+/* PTY state badge */
+.ws-pty {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 999px;
+  white-space: nowrap;
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+}
+
+.ws-pty--active { background: #d9efe2; color: var(--color-success); }
+.ws-pty--idle { background: var(--color-bg-soft); color: var(--color-muted); }
+.ws-pty--dead { background: #f7d5cd; color: var(--color-danger); }
+.ws-pty--running { background: #d5ddf7; color: var(--color-primary); }
+
+/* Output area */
+.ws-output {
+  overflow: auto;
+  max-height: 70vh;
+}
+
+.ws-output-pre {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+  padding: 12px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  min-height: 200px;
+}
+
+/* Empty / error states */
+.ws-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.ws-empty--error {
+  color: var(--color-danger);
+}

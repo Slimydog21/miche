@@ -265,3 +265,35 @@
     width: 400px;
   }
 }
+
+/* MPLAT-ORCH-SPR-04: Agent orchestration card types */
+.miche-island__agent-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-muted, #6b6b6b);
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.miche-island__agent-dot--idle { background: var(--color-muted, #6b6b6b); }
+.miche-island__agent-dot--running { background: var(--color-success, #1a7f4f); }
+.miche-island__agent-dot--paused { background: var(--color-warning, #c47a00); }
+.miche-island__agent-dot--done { background: var(--color-primary, #1d4aff); }
+.miche-island__agent-dot--aborted { background: var(--color-danger, #c63d24); }
+.miche-island__agent-dot--degraded { background: var(--color-warning, #c47a00); }
+.miche-island__agent-dot--created { background: var(--color-success, #1a7f4f); }
+
+.miche-island__agent-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--color-line, #cfcfcf);
+}
+
+.miche-island__agent-row:last-child {
+  border-bottom: none;
+}

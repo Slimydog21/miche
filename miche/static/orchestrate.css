@@ -1,0 +1,316 @@
+/* Orchestration dashboard — MPLAT-ORCH-SPR-02 */
+
+/* Navigation */
+.orchestrate-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.orchestrate-nav__link {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background 80ms ease;
+}
+
+.orchestrate-nav__link:hover {
+  background: var(--color-bg-soft);
+}
+
+.orchestrate-nav__link--active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+/* Toolbar */
+.orchestrate-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.orchestrate-toolbar__status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.orchestrate-toolbar__status[data-state="ok"] { color: var(--color-success); }
+.orchestrate-toolbar__status[data-state="error"] { color: var(--color-danger); }
+
+.orchestrate-toolbar__updated {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* Project grid */
+.orchestrate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .orchestrate-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Project card */
+.orchestrate-card {
+  border: 2px solid var(--color-black);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  box-shadow: 2px 2px 0 0 var(--color-black);
+  padding: 16px 18px;
+}
+
+.orchestrate-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.orchestrate-card__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-black);
+  margin: 0;
+}
+
+.orchestrate-card__counts {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.orchestrate-card__body {
+  min-height: 60px;
+}
+
+/* Agent list within a project card */
+.orchestrate-agent-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.orchestrate-agent-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 13px;
+}
+
+.orchestrate-agent-row:last-child {
+  border-bottom: none;
+}
+
+/* Status dots */
+.orchestrate-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.orchestrate-dot--idle { background: var(--color-muted); }
+.orchestrate-dot--running { background: var(--color-success); }
+.orchestrate-dot--paused { background: var(--color-warning); }
+.orchestrate-dot--done { background: var(--color-primary); }
+.orchestrate-dot--aborted { background: var(--color-danger); }
+.orchestrate-dot--degraded { background: var(--color-warning); }
+
+/* Agent profile tag */
+.orchestrate-profile {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-soft);
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+/* Stale badge */
+.orchestrate-stale {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 999px;
+  background: #fce3cd; /* light warning tint */
+  color: var(--color-warning);
+}
+
+/* Agent actions */
+.orchestrate-agent-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.orchestrate-btn {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 80ms ease;
+}
+
+.orchestrate-btn:hover {
+  background: var(--color-bg-soft);
+}
+
+.orchestrate-btn--danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.orchestrate-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Empty state */
+.orchestrate-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+/* Attach hints panel */
+.orchestrate-hints {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-sm);
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 12px;
+  color: var(--color-ink);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Connection status banner */
+.orchestrate-banner {
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.orchestrate-banner--error {
+  background: #f7d5cd; /* light danger tint */
+  color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+}
+
+.orchestrate-banner--ok {
+  background: #d9efe2; /* light success tint */
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+/* Create agent form */
+.orchestrate-card__footer {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-line);
+}
+
+.orchestrate-create-form {
+  margin-top: 8px;
+}
+
+.orchestrate-form-row {
+  margin-bottom: 8px;
+}
+
+.orchestrate-form-row label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.orchestrate-input,
+.orchestrate-select {
+  display: block;
+  width: 100%;
+  margin-top: 3px;
+  padding: 6px 8px;
+  font-size: 13px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-card);
+  color: var(--color-ink);
+  font-family: inherit;
+}
+
+.orchestrate-input:focus,
+.orchestrate-select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.orchestrate-form-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.orchestrate-form-error {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* Autonomous loop status */
+.orchestrate-loop-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0 4px 16px;
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.orchestrate-loop-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-muted);
+}
+
+.orchestrate-loop-dot--active { background: var(--color-success); }
+.orchestrate-loop-dot--paused { background: var(--color-warning); }
+.orchestrate-loop-dot--done { background: var(--color-primary); }
+.orchestrate-loop-dot--aborted { background: var(--color-danger); }

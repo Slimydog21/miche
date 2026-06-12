@@ -54,7 +54,7 @@ def test_schema_requires_needs_focus():
 
 @pytest.mark.parametrize("utterance", CASSETTE_UTTERANCES)
 def test_cassette_fixtures_locked(utterance, router_log):
-    assert len(CASSETTE_UTTERANCES) == 10
+    assert len(CASSETTE_UTTERANCES) == 17  # 10 original + 7 MPLAT-ORCH-SPR-04 agent orchestration
     expected = CASSETTE_FIXTURES[utterance]
     result = dispatch_utterance(
         utterance_id=f"u-{utterance[:8]}",
