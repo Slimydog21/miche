@@ -2,13 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="miche-layout-version" content="{{ layout_version }}" />
+  <meta name="theme-color" content="#1d4aff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Miche" />
+  <meta name="description" content="Orchestrate CLI agents — Claude Code, Grok Build, MiMo Code, Codex" />
+  <link rel="manifest" href="/static/manifest.json" />
+  <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png" />
   <title>Miche — Orchestration</title>
   <link rel="stylesheet" href="/static/miche.css" />
   <link rel="stylesheet" href="/static/orchestrate.css" />
   <link rel="stylesheet" href="/static/island.css" />
   <script type="module" src="/static/orchestrate.js" defer></script>
+  <script>
+    // Register service worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/static/service-worker.js')
+        .then(reg => console.log('[miche] sw registered:', reg.scope))
+        .catch(err => console.warn('[miche] sw registration failed:', err));
+    }
+  </script>
 </head>
 <body class="miche-orchestrate" data-layout-version="{{ layout_version }}" data-install-profile="{{ profile_id }}">
   <a class="skip-link" href="#miche-main">Skip to projects</a>

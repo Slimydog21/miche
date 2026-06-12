@@ -70,6 +70,60 @@
   }
 }
 
+/* Phone optimization */
+@media (max-width: 480px) {
+  .orchestrate-nav {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .orchestrate-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .orchestrate-nav__link {
+    flex-shrink: 0;
+  }
+
+  .orchestrate-card {
+    padding: 12px 14px;
+  }
+
+  .orchestrate-agent-row {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .orchestrate-agent-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .orchestrate-form-row label {
+    font-size: 14px;
+  }
+
+  .orchestrate-input,
+  .orchestrate-select {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    padding: 8px 10px;
+  }
+
+  .orchestrate-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  /* Safe area insets for notch devices */
+  .orchestrate-main {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 /* Project card */
 .orchestrate-card {
   border: 2px solid var(--color-black);

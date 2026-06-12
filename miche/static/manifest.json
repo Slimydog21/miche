@@ -1,0 +1,46 @@
+{
+  "name": "Miche",
+  "short_name": "Miche",
+  "description": "OS shell for operator home — orchestrate CLI agents, triage inboxes, voice capture",
+  "start_url": "/orchestrate",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fafaf7",
+  "theme_color": "#1d4aff",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/static/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "url": "/orchestrate",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Voice",
+      "short_name": "Voice",
+      "url": "/orchestrate/voice",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Studio",
+      "short_name": "Studio",
+      "url": "/orchestrate/studio",
+      "icons": [{ "src": "/static/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
