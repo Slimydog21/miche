@@ -1,7 +1,7 @@
-/* miche.css — PostHog 3000 design system
- * Exact port of PostHog's Lemon UI tokens and component patterns.
- * See github.com/PostHog/posthog — frontend/src/lib/lemon-ui/
- * and frontend/src/styles/base.scss
+/* miche.css — PostHog 3000 token subset + shared shell (Lemon-inspired)
+ * Tokens align with PostHog posthog/frontend/src/styles/base.scss.
+ * Shell components: header, inboxes, chips, banners (in-app rigor, not marketing site).
+ * Island brutalist chrome lives in island.css only.
  */
 
 :root {
@@ -100,11 +100,23 @@ body.miche-home,
 body.miche-orchestrate {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--color-ink);
+  font-size: 14px;
+  line-height: 1.57;
+  color: rgba(17, 17, 17, 0.9); /* PostHog: text at 90% opacity */
   background: var(--color-bg);
   min-height: 100vh;
+}
+
+a {
+  color: rgba(17, 17, 17, 0.95); /* PostHog: links at 95% opacity */
+  font-weight: var(--font-semibold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--color-ink); /* PostHog: links at 100% on hover */
 }
 
 /* Main content area */
@@ -140,5 +152,322 @@ body.miche-orchestrate {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Skip link (a11y) --- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--spacing-2);
+  z-index: 100;
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-3000);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-card);
+}
+
+.skip-link:focus {
+  left: var(--spacing-4);
+}
+
+/* --- LemonBanner --- */
+.miche-banner {
+  margin: 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-3000);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.miche-banner p {
+  margin: 0;
+  max-width: var(--home-max-width);
+  margin-inline: auto;
+}
+
+.miche-banner--warning {
+  background: var(--color-warning-fill);
+  color: var(--color-ink);
+  border-bottom-color: var(--color-warning);
+}
+
+/* --- Page header --- */
+.miche-header {
+  max-width: var(--home-max-width);
+  margin: 0 auto;
+  padding: var(--spacing-5) var(--home-gutter) var(--spacing-4);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  border-bottom: 1px solid var(--color-border-3000);
+  background: var(--color-bg-card);
+}
+
+.miche-header__brand {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.miche-header__mascot {
+  margin-bottom: var(--spacing-2);
+}
+
+.miche-header__mascot img {
+  display: block;
+}
+
+.miche-header__eyebrow {
+  margin: 0 0 var(--spacing-1);
+  font-size: 12px;
+  font-weight: var(--font-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.miche-header__title {
+  margin: 0 0 var(--spacing-2);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.miche-header__lede {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  max-width: 52rem;
+}
+
+.miche-header__back {
+  display: inline-block;
+  margin-bottom: var(--spacing-2);
+  font-size: 13px;
+  font-weight: var(--font-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.miche-header__back:hover {
+  text-decoration: underline;
+}
+
+.miche-header__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  align-items: center;
+  padding-top: var(--spacing-1);
+}
+
+/* --- LemonTag-style app chips --- */
+.miche-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-border-3000);
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.miche-chip:hover {
+  background: var(--color-info-fill);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+}
+
+/* --- Inbox panels (LemonCard) --- */
+.miche-inbox {
+  border: 1px solid var(--color-border-3000);
+  border-radius: var(--radius);
+  background: var(--color-bg-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+.miche-inbox__head {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-line-light);
+  background: var(--color-bg-toolbar);
+}
+
+.miche-inbox__head h2 {
+  margin: 0 0 var(--spacing-1);
+  font-size: 17px;
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.miche-inbox__subtitle {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+.miche-inbox__body {
+  padding: var(--spacing-3) var(--spacing-4) var(--spacing-4);
+  flex: 1;
+}
+
+.miche-action-list,
+.miche-info-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.miche-action-row,
+.miche-info-row {
+  padding: var(--spacing-3) 0;
+  border-bottom: 1px solid var(--color-line-light);
+}
+
+.miche-action-row:last-child,
+.miche-info-row:last-child {
+  border-bottom: none;
+}
+
+.miche-action-row__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.miche-action-row__severity {
+  font-size: 11px;
+  font-weight: var(--font-bold, 700);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+}
+
+.miche-action-row--critical .miche-action-row__severity {
+  color: var(--color-danger);
+}
+
+.miche-action-row--warning .miche-action-row__severity {
+  color: var(--color-warning-dark);
+}
+
+.miche-action-row__title {
+  font-size: 15px;
+  font-weight: var(--font-semibold);
+}
+
+.miche-action-row__detail {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.miche-action-row__source {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.miche-action-row__badge,
+.miche-info-row__badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: var(--font-semibold);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-warning-fill);
+  color: var(--color-warning-dark);
+}
+
+.miche-action-row__link {
+  display: inline-block;
+  margin-top: var(--spacing-2);
+  font-size: 13px;
+  font-weight: var(--font-semibold);
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.miche-action-row__link:hover {
+  text-decoration: underline;
+}
+
+.miche-info-row__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-1);
+}
+
+.miche-info-row__kind {
+  font-size: 11px;
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.miche-info-row__title {
+  font-size: 15px;
+}
+
+.miche-info-row__citation {
+  font-size: 12px;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+}
+
+.miche-info-row__body {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+}
+
+.miche-info-row--degraded {
+  opacity: 0.85;
+}
+
+.miche-empty__title {
+  margin: 0 0 var(--spacing-2);
+  font-size: 15px;
+  font-weight: var(--font-semibold);
+  color: var(--color-ink);
+}
+
+.miche-empty__copy {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.miche-island-mount {
+  position: relative;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.miche-island-mount .miche-island {
+  pointer-events: auto;
+}
+
+@media (min-width: 1024px) {
+  .miche-home .miche-main {
+    padding-bottom: 120px;
   }
 }

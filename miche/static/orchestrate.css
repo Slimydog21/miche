@@ -44,8 +44,9 @@
 }
 
 @keyframes mascot-breathe {
-  0%, 100% { transform: scale(1) translateY(0); }
-  50% { transform: scale(1.03) translateY(-2px); }
+  /* PostHog: understated animation — animate out, ease to still frame */
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
 }
 
 @keyframes mascot-shake {
@@ -196,12 +197,13 @@
   border-radius: var(--radius);
   background: var(--color-bg-card);
   padding: var(--spacing-4);
-  transition: box-shadow 150ms ease, border-color 150ms ease;
+  transition: border-color 150ms ease; /* PostHog: no hover-in animation, just border change */
 }
 
 .orchestrate-card:hover {
   border-color: var(--color-line-bold);
-  box-shadow: var(--shadow-card);
+  /* PostHog: hard shadow, not soft — 0 3px 0 with border color, no blur */
+  box-shadow: 0 3px 0 var(--color-border-3000);
 }
 
 .orchestrate-card__header {
@@ -340,10 +342,12 @@
 .orchestrate-btn > * { z-index: 1; position: relative; }
 
 .orchestrate-btn:hover:not([aria-disabled="true"]) {
+  /* PostHog: no hover-in animation — snappy. Just a subtle lift. */
   transform: translateY(-0.03125rem);
 }
 
 .orchestrate-btn:active:not([aria-disabled="true"]) {
+  /* PostHog: pressing down feel on click */
   transform: translateY(0.03125rem);
 }
 
