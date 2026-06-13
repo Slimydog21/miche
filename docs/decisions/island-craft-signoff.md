@@ -1,11 +1,19 @@
 # Island craft sign-off — MPLAT2-SPR-05
 
-**Status:** Signed (mechanical checklist; CI attestation pending first green `platform / check`)  
+**Status:** Signed (mechanical checklist + CI attestation green)
 **Date:** 2026-06-06
+**Reconciled:** 2026-06-13 by MTH-SPR-05
 
 ## Signed
 
-Faisal — checklist `docs/island_craft_checklist.md` completed; golden_path and craft e2e specs authored. **CI green attestation:** pending first successful GitHub Actions `platform / check` run on merge commit (update this doc with run URL + SHA).
+Faisal — checklist `docs/island_craft_checklist.md` completed; golden_path and craft e2e specs authored.
+
+## CI green attestation
+
+- **GHA run:** https://github.com/Slimydog21/miche/actions/runs/27061517371
+- **Commit:** `958b715` (MPLAT2-SPR-03–07 batch)
+- **Conclusion:** success (55s, 2026-06-06T11:51:39Z)
+- **Evidence:** `gh run view 27061517371 --repo Slimydog21/miche`
 
 ## Mechanical evidence (local)
 
