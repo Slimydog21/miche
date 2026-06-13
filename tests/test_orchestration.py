@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from unittest.mock import AsyncMock, patch
 
 import httpx
@@ -373,11 +374,15 @@ class TestOrchestrationSubPages:
         r = client.get(path)
         assert "/static/miche.css" in r.text
 
-    def test_orchestrate_nav_has_all_links(self, client):
-        """Orchestrate dashboard has navigation links to all sub-pages."""
+    def test_orchestrate_nav_has_five_items(self, client):
+        """Orchestrate nav rail has exactly 5 destinations."""
         r = client.get("/orchestrate")
-        for link in ["/orchestrate/graph", "/orchestrate/studio", "/orchestrate/settings"]:
+        for link in ["/", "/orchestrate", "/orchestrate/studio", "/orchestrate/memory", "/orchestrate/settings"]:
             assert link in r.text
+        nav_match = re.search(r'<nav class="orchestrate-nav"[^>]*>(.*?)</nav>', r.text, re.S)
+        assert nav_match is not None
+        links = re.findall(r'href="([^"]*)"', nav_match.group(1))
+        assert len(links) == 5
 
     def test_proxy_does_not_intercept_subpages(self, client):
         """Proxy does not intercept orchestration sub-page requests."""
