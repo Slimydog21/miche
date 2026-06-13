@@ -31,6 +31,29 @@ def create_app() -> FastAPI:
     def health() -> JSONResponse:
         return JSONResponse({"status": "ok", "product": "miche_platform"})
 
+    @app.on_event("startup")
+    def _startup_refresh():
+        """Refresh caffenagent session registry on startup so the dashboard
+        shows current data instead of stale timestamps. MPLAT-ORCH."""
+        import httpx
+        import os
+
+        base = os.environ.get("CAFFENAGENT_PUBLIC_BASE_URL", "").strip()
+        user = os.environ.get("CAFFENAGENT_WEB_USER", "").strip()
+        pw = os.environ.get("CAFFENAGENT_WEB_PASS", "").strip()
+        if not base or not user or not pw:
+            return
+        try:
+            import base64
+            creds = base64.b64encode(f"{user}:{pw}".encode()).decode()
+            with httpx.Client(timeout=5) as client:
+                client.post(
+                    f"{base.rstrip('/')}/api/sessions/registry/refresh",
+                    headers={"Authorization": f"Basic {creds}"},
+                )
+        except Exception:
+            pass  # non-fatal — dashboard will show stale data but won't crash
+
     register_apps_routes(app)
     register_inbox_routes(app)
     register_island_routes(app)
